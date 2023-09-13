@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Actions.Text" xml:space="preserve">
-    <value>ACTIONS</value>
+    <value>Actions</value>
   </data>
   <data name="Auto.Text" xml:space="preserve">
-    <value>AUTO</value>
+    <value>Auto</value>
   </data>
   <data name="BtnCreateUser.Text" xml:space="preserve">
     <value>Create User</value>
@@ -160,7 +160,7 @@
     <value>Remove Delete Users</value>
   </data>
   <data name="RoleName.Text" xml:space="preserve">
-    <value>ROLE NAME</value>
+    <value>Role Name</value>
   </data>
   <data name="RolesList.Text" xml:space="preserve">
     <value>Roles List</value>
@@ -187,6 +187,6 @@
     <value>User Roles</value>
   </data>
   <data name="Users.Text" xml:space="preserve">
-    <value>USERS</value>
+    <value>Users</value>
   </data>
 </root>

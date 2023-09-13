@@ -174,4 +174,11 @@
   <data name="EditingSiteRoles.Text" xml:space="preserve">
     <value>Editing Site Roles</value>
   </data>
+  <data name="SortAscending.Text" xml:space="preserve">
+    <value>Alphabetical sort (Ascending a-z)</value>
+    <comment>See Index, dnn-toggle </comment>
+  </data>
+  <data name="SortDescending.Text" xml:space="preserve">
+    <value>Reverse sort (Descending z-a)</value>
+  </data>
 </root>

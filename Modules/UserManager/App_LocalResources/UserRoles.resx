@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Actions.Text" xml:space="preserve">
-    <value>ACTIONS</value>
+    <value>Actions</value>
   </data>
   <data name="AddRole.Text" xml:space="preserve">
     <value>Add Role</value>
@@ -130,7 +130,7 @@
     <value>No roles founds</value>
   </data>
   <data name="Role.Text" xml:space="preserve">
-    <value>ROLE</value>
+    <value>Role</value>
   </data>
   <data name="RoleList.Text" xml:space="preserve">
     <value>Editing Roles For:</value>

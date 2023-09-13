@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountData.Text" xml:space="preserve">
-    <value>ACCOUNT DATA</value>
+    <value>Account Details</value>
   </data>
   <data name="AccountSettings.Text" xml:space="preserve">
-    <value>ACCOUNT SETTINGS</value>
+    <value>Account Settings</value>
   </data>
   <data name="Approved.Text" xml:space="preserve">
     <value>Approved</value>
