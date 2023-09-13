@@ -5,7 +5,7 @@
     <PackageName>Upendo.UserManager</PackageName>
     <Extension>zip</Extension>
     <BuildScriptsPath>$(MSBuildProjectDirectory)\..\..\Build</BuildScriptsPath>
-    <WebsitePath>$(MSBuildProjectDirectory)\..\..\Website</WebsitePath>
+    <WebsitePath>$(MSBuildProjectDirectory)\..\..\..\dnn91200-usermanager\Website</WebsitePath>
     <WebsiteInstallPath>$(WebsitePath)\Install\Module</WebsiteInstallPath>
     <FullModulePath>$(WebsitePath)\DesktopModules\MVC\$(ModulePath)</FullModulePath>
   </PropertyGroup>
