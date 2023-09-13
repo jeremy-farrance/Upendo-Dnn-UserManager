@@ -19,7 +19,7 @@
 		<li>Matt Rutledge, <a href="https://believekids.com/" target="_blank">Believe Kids</a></li>
 		<li>Adam Bernstein, <a href="https://practicewise.com/" target="_blank">PracticeWise</a></li>
 		<li>(<em>and two anonymous sponsors</em>)</li>
-	</ul>
+	</ul> 
 	
 	<h3>Contributors</h3>
 	<p>THANK YOU to the following community members for participating in this release!</p>

@@ -138,6 +138,7 @@
       <DependentUpon>module.css</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ReleaseNotes-DevAccuraty.txt" />
     <Content Include="ReleaseNotes.txt" />
   </ItemGroup>
   <ItemGroup>
