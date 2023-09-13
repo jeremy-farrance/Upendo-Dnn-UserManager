@@ -1,364 +1,345 @@
-﻿/* removing unused CSS 20230909 JRF */
-/* add wrapper and nested all, see Views/Shared/_Layout.cshtml */
-.wrapper-upendo-user-manager .table {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-.wrapper-upendo-user-manager .table td, .wrapper-upendo-user-manager .table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-.wrapper-upendo-user-manager .table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-.wrapper-upendo-user-manager .table tr:hover {
-  background-color: #ddd;
-}
-.wrapper-upendo-user-manager .table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #6d5a2c;
-  color: white;
-}
-.wrapper-upendo-user-manager .input-group input[type=text] {
-  width: 100px;
-  box-sizing: border-box;
-  border-radius: 8px;
-  font-size: 16px;
-  background-color: white;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  padding: 6px;
-  transition: width 0.4s ease-in-out;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.wrapper-upendo-user-manager .input-group input[type=text]:focus {
-  width: 250px;
-}
-.wrapper-upendo-user-manager .formItem {
-  margin-top: 20px;
-  font-size: 16px;
-}
-.wrapper-upendo-user-manager .formItem input {
-  width: 95%;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 3px;
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
-  margin-top: 3px;
-}
-.wrapper-upendo-user-manager .buttonForm button {
-  border: none;
-  padding: 12px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 8px;
-}
-.wrapper-upendo-user-manager .cancel-button {
-  border: none;
-  background-color: grey;
-  padding: 12px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 0.5rem;
-}
-.wrapper-upendo-user-manager .buttonForm .primary {
-  background-color: #008CBA;
-}
-.wrapper-upendo-user-manager .buttonForm .disabled {
-  background-color: #b4babc;
-  pointer-events: none;
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-.wrapper-upendo-user-manager .checkbox {
-  font-size: 16px;
-  margin-top: 20px;
-}
-.wrapper-upendo-user-manager #checkbox {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-}
-.wrapper-upendo-user-manager .left {
-  float: left;
-  margin: 2px;
-}
-.wrapper-upendo-user-manager .right {
-  float: right;
-  margin: 2px;
-}
-.wrapper-upendo-user-manager .center {
-  margin: auto;
-  width: 60%;
-  text-align: center;
-}
-.wrapper-upendo-user-manager .right {
-  margin: auto;
-  width: 60%;
-  text-align: right;
-}
-.wrapper-upendo-user-manager .white-color {
-  color: white;
-}
-.wrapper-upendo-user-manager .text-align-center {
-  text-align: center;
-}
-.wrapper-upendo-user-manager .text-align-left {
-  text-align: left;
-}
-.wrapper-upendo-user-manager .text-align-right {
-  text-align: right !important;
-}
-.wrapper-upendo-user-manager .text-align-justify {
-  text-align: justify;
-}
-.wrapper-upendo-user-manager .float-right {
-  float: right !important;
-}
-.wrapper-upendo-user-manager .ml5 {
-  margin-left: 5px;
-}
-.wrapper-upendo-user-manager .ml10 {
-  margin-left: 10px;
-}
-.wrapper-upendo-user-manager .ml30 {
-  margin-left: 30px;
-}
-.wrapper-upendo-user-manager .mt5 {
-  margin-top: 5px;
-}
-.wrapper-upendo-user-manager .mt20 {
-  margin-top: 20px;
-}
-.wrapper-upendo-user-manager .mt35 {
-  margin-top: 35px;
-}
-.wrapper-upendo-user-manager .pb10 {
-  padding-bottom: 10px !important;
-}
-.wrapper-upendo-user-manager .p1 {
-  padding: 1px 1px !important;
-}
-.wrapper-upendo-user-manager .accountSettings {
-  margin-left: 10px !important;
-}
-.wrapper-upendo-user-manager .accountSettings img {
-  border-radius: 50% !important;
-}
-.wrapper-upendo-user-manager .accountData {
-  margin-left: 10px !important;
-  margin-top: 30px !important;
-}
-.wrapper-upendo-user-manager .row::after { /* Grid System */
-  content: "";
-  display: table;
-}
-.wrapper-upendo-user-manager .pl2 {
-  padding-left: 2px !important;
-}
-.wrapper-upendo-user-manager .pr2 {
-  padding-right: 2px !important;
-}
-.wrapper-upendo-user-manager [class*=col-] {
-  float: left;
-}
-.wrapper-upendo-user-manager .col-1 {
-  width: 8.33%;
-}
-.wrapper-upendo-user-manager .col-2 {
-  width: 16.66%;
-}
-.wrapper-upendo-user-manager .col-3 {
-  width: 25%;
-}
-.wrapper-upendo-user-manager .col-4 {
-  width: 33.33%;
-}
-.wrapper-upendo-user-manager .col-5 {
-  width: 41.66%;
-}
-.wrapper-upendo-user-manager .col-6 {
-  width: 50%;
-}
-.wrapper-upendo-user-manager .col-7 {
-  width: 58.33%;
-}
-.wrapper-upendo-user-manager .col-8 {
-  width: 66.66%;
-}
-.wrapper-upendo-user-manager .col-9 {
-  width: 75%;
-}
-.wrapper-upendo-user-manager .col-10 {
-  width: 83.33%;
-}
-.wrapper-upendo-user-manager .col-11 {
-  width: 91.66%;
-}
-.wrapper-upendo-user-manager .col-12 {
-  width: 100%;
-}
-.wrapper-upendo-user-manager .dropDownList {
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  padding: 9px;
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
-  font-size: 16px;
-  border-radius: 10px;
-}
-.wrapper-upendo-user-manager .dropDown {
-  display: flex;
-  height: 40px;
-  background: rgba(228, 228, 228, 0.831372549);
-  color: black;
-  padding: 20px !important;
-  font-size: 16px !important;
-  border-radius: 8px !important;
-  align-items: center !important;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
-}
-.wrapper-upendo-user-manager .input-group input {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.wrapper-upendo-user-manager .box-shadow {
-  height: 40px;
-  box-shadow: 0 0 8px 0 #888888;
-}
-.wrapper-upendo-user-manager .paginationStyle {
-  display: inline-block;
-  padding-left: 0;
-  margin: 0px !important;
-  border-radius: 4px;
-}
-.wrapper-upendo-user-manager .data-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 16px !important;
-  padding: 0 8px;
-}
-.wrapper-upendo-user-manager .navbar-default {
-  background-color: rgba(255, 255, 255, 0) !important;
-  border-color: rgba(255, 255, 255, 0.0392156863) !important;
-}
-.wrapper-upendo-user-manager .color-white {
-  color: white !important;
-}
-.wrapper-upendo-user-manager .color-black {
-  color: black !important;
+#table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-/* end wrapper-upendo-user-manager */
-/* version 1.01.02+ additions */
-.wrapper-upendo-user-manager .field-validation-error {
+    #table td, #table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #table tr:hover {
+        background-color: #ddd;
+    }
+
+    #table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #6d5a2c;
+        color: white;
+    }
+
+#title {
+    color: #6d5a2c;
+}
+
+#subtitle {
+    color: #ba9545;
+}
+
+.input-group input[type=text] {
+    width: 100px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 6px;
+    transition: width 0.4s ease-in-out;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+    .input-group input[type=text]:focus {
+        width: 250px;
+    }
+
+.formItem {
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+    .formItem input {
+        width: 95%;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        padding: 3px;
+        box-shadow: 0 1px 6px 0 rgba(0,0,0,0.2), 0 2px 8px 0 rgba(0,0,0,0.19);
+        margin-top: 3px;
+    }
+
+.buttomForm button {
+    border: none;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 8px;
+}
+
+.cancel-buttom {
+    border: none;
+    background-color: grey;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 8px;
+}
+
+.buttomForm .primary {
+    background-color: #008CBA;
+}
+
+.buttomForm .disabled {
+    background-color: #b4babc;
+    pointer-events: none;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.buttomForm #cancelEdit {
+    
+}
+
+.checkbox {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+#checkbox {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}
+
+.left {
+    float: left;
+    margin: 2px;
+}
+
+.right {
+    float: right;
+    margin: 2px;
+}
+
+.center {
+    margin: auto;
+    width: 60%;
+    text-align: center;
+}
+
+.right {
+    margin: auto;
+    width: 60%;
+    text-align: right;
+}
+
+.white-color {
+    color: white;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-right {
+    text-align: right !important;
+}
+
+.text-align-justify {
+    text-align: justify;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.ml5 {
+    margin-left: 5px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml30 {
+    margin-left: 30px;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mt35 {
+    margin-top: 35px;
+}
+
+.pb10 {
+    padding-bottom: 10px !important;
+}
+
+.p1 {
+    padding: 1px 1 !important;
+}
+
+.accountSettings {
+    margin-left: 10px !important;
+}
+
+    .accountSettings img {
+        border-radius: 50% !important;
+    }
+
+.accountData {
+    margin-left: 10px !important;
+    margin-top: 30px !important;
+}
+
+/* Grid System */
+.row::after {
+    content: "";
+    display: table;
+}
+
+.pl2 {
+    padding-left: 2px !important;
+}
+
+.pr2 {
+    padding-right: 2px !important;
+}
+
+[class*="col-"] {
+    float: left;
+}
+
+.col-1 {
+    width: 8.33%;
+}
+
+.col-2 {
+    width: 16.66%;
+}
+
+.col-3 {
+    width: 25%;
+}
+
+.col-4 {
+    width: 33.33%;
+}
+
+.col-5 {
+    width: 41.66%;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-7 {
+    width: 58.33%;
+}
+
+.col-8 {
+    width: 66.66%;
+}
+
+.col-9 {
+    width: 75%;
+}
+
+.col-10 {
+    width: 83.33%;
+}
+
+.col-11 {
+    width: 91.66%;
+}
+
+.col-12 {
+    width: 100%;
+}
+/* Grid System */
+
+.dropDownList {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 9px;
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,0.2), 0 2px 8px 0 rgba(0,0,0,0.19);
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.dropDown {
+    display: flex;
+    height: 40px;
+    background: #e4e4e4d4;
+    color: black;
+    padding: 20px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+    align-items: center !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.input-group input {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.box-shadow {
+    height: 40px;
+    box-shadow: 0 0 8px 0 #888888
+}
+
+.paginationStyle {
+    display: inline-block;
+    padding-left: 0;
+    margin: 0px !important;
+    border-radius: 4px;
+}
+
+.data-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 16px !important;
+    padding: 0 8px;
+}
+
+.navbar-default {
+    background-color: #ffffff00 !important;
+    border-color: #ffffff0a !important;
+}
+
+.color-white {
+    color: white !important;
+}
+
+.color-black {
+    color: black !important;
+}
+
+/* version 1.01.02 additions */
+.field-validation-error {
   color: darkred;
   font-size: small;
 }
-.wrapper-upendo-user-manager .action-buttons dnn-button {
-  padding: 0px 0.5rem 0.5rem 0px;
-}
-.wrapper-upendo-user-manager .w-100 {
-  width: 100%;
-}
-.wrapper-upendo-user-manager details {
-  margin: 0.25rem 0 1rem;
-}
-.wrapper-upendo-user-manager details summary {
-  font-size: large;
-  font-weight: bold;
-  background-color: lightgray;
-  border: 1px solid darkgray;
-  border-radius: 0.25rem;
-  padding: 0.25rem 3rem;
-  margin-bottom: 3px;
-}
-.wrapper-upendo-user-manager details summary span {
-  font-weight: normal;
-}
-.wrapper-upendo-user-manager details summary:before {
-  content: "+";
-  color: black;
-  position: absolute;
-  font-size: 2rem;
-  line-height: 0;
-  margin: 12px -24px;
-  font-weight: 200;
-  transform-origin: center;
-  transition: 200ms ease-in;
-}
-.wrapper-upendo-user-manager details > details {
-  margin: 0 0 0 1rem;
-}
-.wrapper-upendo-user-manager details > details summary {
-  font-size: medium;
-}
-.wrapper-upendo-user-manager details[open] > summary {
-  background: none;
-  border-color: lightgray;
-}
-.wrapper-upendo-user-manager details[open] > summary:before {
-  transform: rotate(45deg);
-  font-size: 3rem;
-}
-.wrapper-upendo-user-manager .material-icons {
-  font-size: 2rem;
-  vertical-align: text-bottom;
-  margin: 0 1rem;
-}
-.wrapper-upendo-user-manager .material-icons.xs {
-  font-size: 1rem;
-}
-.wrapper-upendo-user-manager .material-icons.sm {
-  font-size: 1.5rem;
-}
-.wrapper-upendo-user-manager .material-icons.md {
-  font-size: 2rem;
-}
-.wrapper-upendo-user-manager .material-icons.lg {
-  font-size: 3rem;
-}
-.wrapper-upendo-user-manager .material-icons.xl {
-  font-size: 4rem;
-}
-.wrapper-upendo-user-manager dnn-select .container {
-  padding: 0.5rem 0.75em;
-}
-.wrapper-upendo-user-manager .flex-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.wrapper-upendo-user-manager .left-item {
-  margin-right: 2rem;
-}
-.wrapper-upendo-user-manager .left-group {
-  align-items: center;
-}
-.wrapper-upendo-user-manager .right-group, .wrapper-upendo-user-manager .left-group {
-  display: flex;
-}
-.wrapper-upendo-user-manager .right-item {
-  margin-left: 1rem;
-}
-
-/* end wrapper-upendo-user-manager */
-
-/*# sourceMappingURL=data:application/json;charset=utf-8,%7B%22version%22:3,%22sourceRoot%22:%22%22,%22sources%22:%5B%22file:///C:/dev/open/Dnn-UserManager/src/Modules/UserManager/module.scss%22%5D,%22names%22:%5B%5D,%22mappings%22:%22AAAA;AACA;AAGE;EACE;EACA;EACA;;AAEA;EACE;EACA;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;EACA;EACA;EACA;EACA;;AAIJ;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;;AAGF;EACE;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;;AAGF;EACE;EACA;EACA;EACA;;AAMF;EACE;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;;AAGF;EACE;EACA;;AAGF;EACE;EACA;EACA;;AAGF;EACE;EACA;EACA;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;EACA;;AAGF;EACE;EACA;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;;AAGF;EACE;EACA;;AAGF;EACE;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;;AAGF;EACE;;AAGF;EACE;;;AAGJ;AAEA;AAEE;EACE;EACA;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAEA;EACE;EACA;EACA;EACA;EACA;EACA;EACA;;AAEA;EACE;;AAIJ;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;;AAEA;EACE;;AAIJ;EACE;EACA;;AAGF;EACE;EACA;;AAIJ;EACE;EACA;EACA;;AAEA;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAIJ;EACE;;AAGF;EACE;EACA;EACA;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;AAGF;EACE;;;AAIJ%22%7D */

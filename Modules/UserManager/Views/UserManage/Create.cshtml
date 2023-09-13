@@ -6,12 +6,14 @@
 @using DotNetNuke.Security.Membership;
 
 @{
+  string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title +
+  "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
   string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
   <div class="col-md-12">
     <div class="col-md-12">
-      <h2>@Localization.GetString("CreateUser", @ResourceFile)</h2>
+      <h2 id="subtitle">@Localization.GetString("CreateUser", @ResourceFile)</h2>
     </div>
   </div>
   <hr />
@@ -71,10 +73,10 @@
       </div>
     </div>
   </fieldset>
-  <div class="buttonForm mt20">
+  <div class="buttomForm mt20">
     <div class="center">
       <button type="submit" class="disabled" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
-      <a type="button" class="cancel-button" style="color: white;" href="@Url.Action("Index", "UserManage")">
+      <a type="button" class="cancel-buttom" style="color: white;" href="@Url.Action("Index", "UserManage")">
         @Localization.GetString("Cancel", @ResourceFile)
       </a>
     </div>

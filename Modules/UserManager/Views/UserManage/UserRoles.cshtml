@@ -6,6 +6,8 @@
 @using DotNetNuke.Services.Localization;
 
 @{
+    string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title +
+    "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
     string name = ViewBag.User.DisplayName;
     int userId = ViewBag.User.UserId;
     var pageIndexMinus = (@Model.PageIndex - @Model.Take) <= 0 ? 0 : (@Model.PageIndex - @Model.Take);
@@ -19,7 +21,7 @@
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2% !important;">
 
-    <h2>@Localization.GetString("RoleList", @ResourceFile) <span class="lead">@name (@userId)</span></h2>
+    <h2 id="title">@Localization.GetString("RoleList", @ResourceFile) <span class="lead">@name (@userId)</span></h2>
 
     <hr/>
     <div class="col-md-7">

@@ -10,7 +10,7 @@
 }
 <div class="col-7">
     <div class="accountSettings">
-        <h4 class="">@Localization.GetString("AccountSettings", @ResourceFile)</h4>
+        <h4 class="center" id="title">@Localization.GetString("AccountSettings", @ResourceFile)</h4>
         @if (!ViewData.ModelState.IsValid)
         {
             <div class="alert alert-danger">
@@ -69,7 +69,7 @@
     </div>
 </div>
 <div class="col-5">
-    <h4 class="">@Localization.GetString("AccountData", @ResourceFile)</h4>
+    <h4 class="center" id="title">@Localization.GetString("AccountData", @ResourceFile)</h4>
     <div class="accountData">
         <div>
             <img src=@defaultUserPicture alt="User" width="200" height="200" class="float-right">
@@ -79,7 +79,7 @@
         <p>@Localization.GetString("CreatedOnDate", @ResourceFile) @Model.CreatedOnDate</p>
         <p>@Localization.GetString("LastModifiedOnDate", @ResourceFile) @Model.LastModifiedOnDate</p>
         <p>@Localization.GetString("UpdatePassword", @ResourceFile) @Model.UpdatePassword</p>
-        <h4>@Localization.GetString("UserRoles", @ResourceFile)</h4>
+        <h4 id="subtitle">@Localization.GetString("UserRoles", @ResourceFile)</h4>
         <ul>
             @{
                 foreach (var item in Model.UserRoles)
@@ -91,7 +91,7 @@
     </div>
 </div>
 <div class="col-12 mt20">
-    <div class="buttonForm">
+    <div class="buttomForm">
         <div class="center">
             <button type="submit" class="dnnPrimaryAction" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
             <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>

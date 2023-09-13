@@ -1,373 +1,270 @@
 @inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<DataTableResponse<Upendo.Modules.UserManager.Models.DnnModel.Users>>
 
+@using System.Text.RegularExpressions
+@using DotNetNuke.Web.Mvc.Helpers
 @using Upendo.Modules.UserManager.ViewModels;
-@using Upendo.Modules.UserManager.Components;
-@using Upendo.Modules.UserManager.Utility;
-
-@using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;
-@using Icon = Upendo.Modules.UserManager.Utility.Helpers.IconHelper;
-@using Text = Upendo.Modules.UserManager.Utility.Helpers.TextHelper;
-
-@*
-
-  REMINDER: Project has a suppressed warning: CS1591 Missing XML comment for publicly visible type or member
-
-  To turn this off, in Visual Studio go to: Project Properties > Build > Errors and warnings, then remove "1591" from Suppress warnings
-
-*@
+@using DotNetNuke.Services.Localization;
 
 @{
-  bool isDebug = true;
+    string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title + "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
+    string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
 
-  // Important: see 'lang' above, default GetString() is shared, otherwise pass in the resource file name
-  // TODO? consolidate user module resources in to App_LocalResources/UserManager.resx and update Constants and LocalizationHelper accordingly
-  string resourceFilename = "Index";
-
-  double PageIndex = Model.PageIndex == 0 ? 1 : Model.PageIndex;
-  var pageIndexMinus = (PageIndex - 1) <= 0 ? 0 : (Model.PageIndex - 1);
-  var pageIndexPlus = PageIndex + 1;
-  var pageIndexPaginate = (Model.PageIndex * Model.Take) + 1;
-  var pageView = PageIndex;
-  var pageIndexTo = (pageIndexPaginate + Model.Take) - 1;
-  var skipTo = Model.PageIndex + Model.Take;
-
-  // build label for OrderBy dropdown (selectSortField) based on selected value (default is Username)
-  var modelOrderBy = string.IsNullOrWhiteSpace(Model.OrderBy) ? Constants.DefaultSelectSortField : Model.OrderBy.Trim();
-  var orderByLabel = string.Format("{0}: {1}", Lang.GetString("SortBy"), Lang.GetString(modelOrderBy, resourceFilename));
-
-  var modelSearch = Model.Search == " " ? "" : Model.Search;
-  var modelOrder = Model.Order ?? "asc"; // default to ascending order
-
+    double PageIndex = Model.PageIndex == 0 ? 1 : Model.PageIndex;
+    var pageIndexMinus = (PageIndex - 1) <= 0 ? 0 : (Model.PageIndex - 1);
+    var pageIndexPlus = PageIndex + 1;
+    var pageIndexPaginate = (Model.PageIndex * Model.Take) + 1;
+    var pageView = PageIndex;
+    var pageIndexTo = (pageIndexPaginate + Model.Take) - 1;
+    var skipTo = Model.PageIndex + Model.Take;
 }
+<div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
+    <div class="col-md-12" style="margin-bottom: 20px;">
+        <ul class="nav navbar-nav navbar-right">
+            <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
+                @Localization.GetString("BtnCreateUser", @ResourceFile)
+            </a>
+            <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
+                <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
+                    @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
+                </a>
+            </span>
+            <span id="dialogs-RemoveDelete" class="dnnActions" style="display: initial;">
+                <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
+                    @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
+                </a>
+            </span>
+            <span class="dnnActions" style="display: initial;">
+                <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
+                    @Localization.GetString("RolesList", @ResourceFile)
+                </a>
+            </span>
+        </ul>
+    </div>
+    <div class="col-md-12 pl2">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="col-md-2 ">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropDown btn dropdown-toggle color-black" data-toggle="dropdown" href="#" style=" display: inline-flex;">
+                            @Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take
+                            <span class="caret"></span>
+                        </a>        <ul class="dropdown-menu">
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 5, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                                    <span aria-hidden="true">5</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 10, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                                    <span aria-hidden="true">10</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 50, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                                    <span aria-hidden="true">50</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 100, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                                    <span aria-hidden="true">100</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.RecordsTotal, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                                    <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary box-shadow" type="submit" style="margin-left: 60px;">@Localization.GetString("Search", @SharedResourceFile)</button>
+                    </span>
+                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = " height: 40px;box-shadow: 0 0 3px 0 #888888" })
+                </div>
+            </div>
+            <div class="col-md-7">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown" style="margin: 0 10px !important;">
+                        <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
+                            <span class="color-black">@ViewBag.Filter</span>
+                            <span class="caret" style=" display: inline-flex;"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "All", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Authorized", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("Authorized", @SharedResourceFile)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Unauthorized", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("Unauthorized", @SharedResourceFile)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Deleted", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("Deleted", @SharedResourceFile)</span>
+                                </a>
+                            </li>
+                            @if (ViewBag.IsCurrentUserSuperUser)
+                            {
+                                <li>
+                                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, filter = "SuperUsers", orderBy = @Model.OrderBy, order = @Model.Order })">
+                                        <span aria-hidden="true">@Localization.GetString("SuperUsers", @SharedResourceFile)</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                    <li class="dropdown" style="margin: 0 10px !important;">
+                        <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
+                            <span class="color-black">@Localization.GetString("SortBy", @SharedResourceFile)</span>
+                            <span class="caret" style=" display: inline-flex;"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="Username" , order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("Username", @ResourceFile)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="DisplayName",order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("DisplayName", @ResourceFile)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="Email" ,order=@Model.Order})">
+                                    <span aria-hidden="true">@Localization.GetString("Email", @ResourceFile)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
+                           data-toggle="tooltip" data-placement="top" title="Asc">
+                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
+                           data-toggle="tooltip" data-placement="top" title="Desc">
+                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        </a>
+                    </li>
 
-@if (isDebug)
-{
-  <details>
-    <summary>Debug Details - User Manager <span>(Version @Dnn.ModuleContext.Configuration.DesktopModule.Version, ModuleId @Dnn.ModuleContext.ModuleId)</span></summary>
-    <details open>
-      <summary>Module</summary>
-<pre>
-isDebug=@isDebug
-resourceFilename = @resourceFilename
-Upendo.Modules.UserManager.Utility.Constants.ModulePath: @Constants.ModulePath
-Dnn.ActiveModule.DesktopModule.FolderName:               @Dnn.ActiveModule.DesktopModule.FolderName
-Lang.GetString() for DeleteUnauthorized.Text:            @Lang.GetString("DeleteUnauthorized.Text", resourceFilename)
-</pre>
-    </details>
-    <details>
-      <summary>Model</summary>
-<pre>
-Model.Take:         >>@Model.Take<<
-Model.PageIndex:    >>@Model.PageIndex<<
-Model.PagesTotal:   >>@Model.PagesTotal<<
-Model.Search:       >>@Model.Search<< >>>@Html.Raw(Model.Search)<<<, modelSearch:>>@modelSearch<<
-Model.OrderBy:      >>@Model.OrderBy<<
-  modelOrderBy: @modelOrderBy
-  orderByLabel: @orderByLabel
-Model.Order:        >>@Model.Order<<, modelOrder:>>@modelOrder<<
-Model.RecordsTotal: >>@Model.RecordsTotal<<
-Model.Data.Count:   >>@Model.Data.Count<<
-</pre>
-    </details>
-    <details>
-      <summary>IconHelper details...</summary>
-<pre>
-old way:
-GoogleIcon("lock_outline"): @Icon.Google("lock_outline") and GoogleIcon("near_me"): @Icon.Google("near_me")
-
-new ways?
-Icon.Google("lock_outline"): @Icon.Google("lock_outline")
-Icon.Get("lock_outline", "google"):  @Icon.Get("lock_outline", "google")
-Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black") : @Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black")
-
-Icon.Get(): @Icon.Get()
-Icon.Get("booya"): @Icon.Get("booya") (does not exist)
-Icon.Get("star"): @Icon.Get("star")
-Icon.Get("lock", styleColor: "cyan"): @Icon.Get("lock", styleColor: "cyan")
-
-Icon.Glyph("music"):                              @Icon.Glyph("music", "green")
-Icon.Get("music", "glyph"):                       @Icon.Get("music", "glyph", "blue")
-Icon.Get(iconSet: "glyph", iconName: "MUSIC"):    @Icon.Get(iconSet: "glyph", iconName: "MUSIC")
-Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", iconSet: "Glyphs")
-</pre>
-    </details>
-  </details>
-}
-else
-{ 
-  <h3>User Manager</h3>
-}
-    <script>
-  // no jQuery
-  // dnn-elements' events; popup a yes/no confirmation
-  document.addEventListener("DOMContentLoaded", () => {
-    // Button Action for Delete Unauthorized Users
-    var elButtonDeleteUnauthorizedUsers = document.getElementById("buttonDeleteUnauthorizedUsers");
-    elButtonDeleteUnauthorizedUsers.addEventListener("confirmed", () => {
-      window.location.href = "@Html.Raw(Url.Action("DeleteUnauthorizedUsers", "UserManage", new { }).Replace("javascript:", string.Empty))";
-    });
-    // Button Action for Remove Deleted Users
-    var elButtonRemoveDeletedUsers = document.getElementById("buttonRemoveDeletedUsers");
-    elButtonRemoveDeletedUsers.addEventListener("confirmed", () => {
-      window.location.href = "@Html.Raw(Url.Action("RemoveDeletedUsers", "UserManage", new { }).Replace("javascript:", string.Empty))";
-    });
-    // Select Action for Items Per Page
-    var elSelectItemsPerPage = document.getElementById("selectItemsPerPage");
-    elSelectItemsPerPage.addEventListener("valueChange", () => {
-      var take = elSelectItemsPerPage.value;
-      var urlAction = "@Url.Action("Index", "UserManage", new { take="{ItemsPerPage}", pageIndex=Model.PageIndex, search=modelSearch, filter=ViewBag.Filter})";
-      window.location.href = urlAction.replace("{ItemsPerPage}", take);
-    });
-    // Searchbox Actions
-    var elSearchboxUsers = document.getElementById("Search");
-    //// detect Search has been cleared and redirect to Index
-    elSearchboxUsers.addEventListener("queryChanged", () => {
-      var search = elSearchboxUsers.query;
-      search = search.trim();
-      @(isDebug ? "" : "//") console.log("queryChanged: " + search);
-      if (search.length === 0) {
-        var urlAction = "@Url.Action("Index", "UserManage", new { take=Model.Take, pageIndex=Model.PageIndex, filter=ViewBag.Filter })";
-        window.location.href = urlAction;
-      }
-    });
-    //// detect Enter key and do the search
-    elSearchboxUsers.addEventListener('keypress', function (ev) {
-      if (ev.key === "Enter") {
-        ev.preventDefault();
-        var search = elSearchboxUsers.query;
-        search = search.trim();
-        // original didn't keep orderBy and order, why??
-        var urlAction = "@Url.Action("Index", "UserManage", new { take=Model.Take, pageIndex=Model.PageIndex, filter=ViewBag.Filter, search="{search}" })";
-        @(isDebug ? "" : "//") console.log(urlAction);
-        @(isDebug ? "" : "//") console.log('search: ', search, '.query: ', elSearchboxUsers.query);
-        urlAction = urlAction.replace("?search={search}", "/search/" + search);
-        @(isDebug ? "" : "//") console.log(urlAction);
-        window.location.href = urlAction;
-      }
-    });
-    // Select Action for Show (filter to show only status/type of user)
-    var elSelectFilterUserStatus = document.getElementById("selectFilterUserStatus");
-    elSelectFilterUserStatus.addEventListener("valueChange", () => {
-      var filter = elSelectFilterUserStatus.value;
-      var urlAction = "@Url.Action("Index", "UserManage", new { take=Model.Take, pageIndex=Model.PageIndex, filter = "{UserStatus}", search=modelSearch, orderBy=modelOrderBy, order=modelOrder})";
-      urlAction = urlAction.replace("?filter={UserStatus}", "/filter/" + filter);
-      window.location.href = urlAction;
-    });
-    // select Action for Field to sort (orderBy)
-    var elSelectSortField = document.getElementById("selectSortField");
-    elSelectSortField.addEventListener("valueChange", () => {
-      var orderBy = elSelectSortField.value;
-      var urlAction = "@Url.Action("Index", "UserManage", new { take = Model.Take, pageIndex=Model.PageIndex, filter=ViewBag.Filter, search=modelSearch, orderBy="{UserOrderBy}", order=modelOrder})";
-      urlAction = urlAction.replace("?orderBy={UserOrderBy}", "/orderBy/" + orderBy);
-      window.location.href = urlAction;
-    });
-    // toggleSortDirection checkChanged toggle Action for Sort Direction (order)
-    var elToggleSortDirection = document.getElementById("toggleSortDirection");
-    elToggleSortDirection.addEventListener("checkChanged", () => {
-      var checked = elToggleSortDirection.checked;
-      // note: this reverses the default, so false (not checked) is ascending (asc)
-      var order = !checked ? "asc" : "desc";
-      @(isDebug ? "" : "//") console.log('toggleSort: ', checked, 'order: ', order);
-      var urlAction = "@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter=@ViewBag.Filter, search=@modelSearch, orderBy=modelOrderBy, order="{SortDirection}"})";
-      urlAction = urlAction.replace("?order={SortDirection}", "/order/" + order);
-      window.location.href = urlAction;
-    });
-  })
-    </script>
-    <div id="view-index-@Dnn.ModuleContext.ModuleId" class="view-index view-start" style="margin-top: 1rem;">
-      <div class="flex-container action-buttons" style="margin-bottom: 0.5rem;">
-        <dnn-button class="left-item" onclick="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
-          @Icon.Glyph("plus")
-          @Lang.GetString("BtnCreateUser", resourceFilename)
-        </dnn-button>
-        <div class="right-group">
-          <dnn-button id="buttonDeleteUnauthorizedUsers" class="right-item" style="--background-color: orange;" confirm confirm-message="@Lang.GetString("DeleteUnauthorized.Text", resourceFilename)">
-            @Icon.Glyph("trash")
-            @Lang.GetString("DeleteUnauthorizedUsers", resourceFilename)
-          </dnn-button>
-          <dnn-button id="buttonRemoveDeletedUsers" class="right-item" style="--background-color: orange;" confirm confirm-message="@Lang.GetString("RemoveDelete.Text", resourceFilename)">
-            @Icon.Glyph("trash")
-            @Lang.GetString("RemoveDeleteUsers", resourceFilename)
-          </dnn-button>
-          <dnn-button class="right-item" onclick="@Url.Action("Index", "RolesManage", new {ctl = "Edit"})" type="secondary">
-            @Icon.Glyph("list-alt")
-            @Lang.GetString("RolesList", resourceFilename)
-          </dnn-button>
-        </div>
-      </div>
-      <div class="flex-container" style="height: 4rem; margin-bottom: 0.5rem;">
-        <div class="left-group">
-          <div class="left-item">
-            <dnn-searchbox id="Search" debounced placeholder="@Lang.GetString("Search") (type stuff and press enter)" query="@modelSearch"
-                           style="" title="Searches FirstName, DisplayName, Email, and Username">
-            </dnn-searchbox>
-          </div>
-          <div class="left-item">
-            <dnn-select id="selectFilterUserStatus" value="@Constants.DefaultSelectUserStatus"
-                        style="--foreground: rgba(228, 228, 228, 0.8); --background: rgba(228, 228, 228, 0.8); --control-radius: 8px;">
-              <option value="">Show: @ViewBag.Filter</option>
-              <option value="All">@Lang.GetString("All")</option>
-              <option value="Authorized">@Lang.GetString("Authorized") (default)</option>
-              <option value="Unauthorized">@Lang.GetString("Unauthorized")</option>
-              <option value="Deleted">@Lang.GetString("Deleted")</option>
-              @if (ViewBag.IsCurrentUserSuperUser)
-              {
-                <option value="SuperUsers">@Lang.GetString("SuperUsers")</option>
-              }
-            </dnn-select>
-          </div>
-          <div class="left-item text-right">
-            <dnn-select id="selectSortField" value="@Constants.DefaultSelectSortField"
-                        style="--foreground: rgba(228, 228, 228, 0.8); --background: rgba(228, 228, 228, 0.8); --control-radius: 8px;">
-              <option value="">@orderByLabel</option>
-              <option value="Username">@Lang.GetString("Username", resourceFilename) (default)</option>
-              <option value="DisplayName">@Lang.GetString("DisplayName", resourceFilename)</option>
-              <option value="Email">@Lang.GetString("Email", resourceFilename)</option>
-            </dnn-select>
-          </div>
-          <div class="left-item" style="padding: 0.75rem 0; margin-left: -1.25rem;">
-            <dnn-toggle id="toggleSortDirection" @(modelOrder == "asc" ? "" : "checked") @* note: this reverses the default, so false (not checked) is ascending (asc) *@
-                        title="@Lang.GetString(modelOrder == "asc" ? "SortAscending" : "SortDescending")"
-                        style="--background: var(--dnn-color-secondary, #ccc); --background-checked: #aaa; transform: rotate(270deg); ">
-            </dnn-toggle>
-          </div>
-        </div>
-        <div class="right-item text-right">
-          <dnn-select id="selectItemsPerPage" value="@Constants.DefaultSelectRowsPerPage"
-                      style="--foreground: rgba(228, 228, 228, 0.8); --background: rgba(228, 228, 228, 0.8); --control-radius: 8px;">
-            <option value="">@(Model.Take > 100 ? "All rows" : Model.Take.ToString() + " rows per Page")</option>
-            <option value="10">10 per page (default)</option>
-            <option value="25">25 per page</option>
-            <option value="50">50 per page</option>
-            <option value="100">100 per page</option>
-            <option value="999999">Show All</option>
-          </dnn-select>
-        </div>
-      </div>
-      <table class="table table-striped table-bordered table-hover">
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <table class="table table-striped table-bordered table-hover">
         <thead>
-          <tr style="background-color:#6d5a2c; color:#FFFFFF">
-            <th class="hidden">@Lang.GetString("Id", resourceFilename)</th>
-            <th class="uppercase-text">
-              <span>@Lang.GetString("Username", resourceFilename)</span>
-              @GetOptionalSortIcon("Username", modelOrderBy, modelOrder)
-            </th>
-            <th class="uppercase-text">
-              <span>@Lang.GetString("DisplayName", resourceFilename)</span>
-              @GetOptionalSortIcon("DisplayName", modelOrderBy, modelOrder)
-            </th>
-            <th class="uppercase-text">
-              <span>@Lang.GetString("Email", resourceFilename)</span>
-              @GetOptionalSortIcon("Email", modelOrderBy, modelOrder)
-            </th>
-            <th style="text-align: center;" class="uppercase-text text-center">@Lang.GetString("Superuser", resourceFilename)</th>
-            <th style="text-align:center" class="text-center">@Lang.GetString("Actions", resourceFilename)</th>
-          </tr>
+            <tr style="background-color:#6d5a2c; color:#FFFFFF">
+                <th class="hidden">@Localization.GetString("Id", @ResourceFile)</th>
+                <th class="uppercase-text">@Localization.GetString("Username", @ResourceFile)</th>
+                <th class="uppercase-text">@Localization.GetString("DisplayName", @ResourceFile)</th>
+                <th class="uppercase-text">@Localization.GetString("Email", @ResourceFile)</th>
+                <th style="text-align: center;" class="uppercase-text text-center">@Localization.GetString("Superuser", @ResourceFile)</th>
+                <th style="text-align:center" class="text-center">@Localization.GetString("Actions", @ResourceFile)</th>
+            </tr>
         </thead>
         <tbody>
-          @if (Model.RecordsTotal == 0)
-          {
-            <tr>
-              <td colspan="6">
-                <div class="center">
-                  <h1>@Lang.GetString("NoUsersFound", resourceFilename)</h1>
-                  <h2>@Lang.GetString("SearchCriteria", resourceFilename)</h2>
-                </div>
-              </td>
-            </tr>
-          }
-          else
-          {
-            foreach (var item in Model.Data)
+            @if (Model.RecordsTotal == 0)
             {
-              var repoUser = UserRepository.GetUser(Dnn.ModuleContext.PortalId, item.UserId);
-              bool isDeleted = repoUser.IsDeleted;
-              <tr title="@(isDeleted ? "This user is Deleted" : "")">
-                <td class="hidden">
-                  @item.UserId
-                </td>
-                <td>
-                  @if (isDeleted)
-                  {
-                    <span>@Icon.Get(iconName: "remove", iconSet: "glyph", styleColor: "red")</span>
-                  }
-                  <a data-hint="Edit" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
-                     data-toggle="tooltip" data-placement="top" title="@Lang.GetString("Edit")">
-                    @item.Username
-                  </a>
-                </td>
-                <td>
-                  @item.DisplayName
-                </td>
-                <td>
-                  <a href="mailto:@item.Email" target="_blank">
-                    @item.Email
-                  </a>
-                </td>
-                <td class="text-center">
-                  @if (@item.IsSuperUser == true)
-                  {
-                    @Icon.Google(iconName: "admin_panel_settings", iconSize: "lg", styleColor: "blue")
-                    @*<span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:yellowgreen"></span>*@
-                  }
-                  else
-                  {
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color:red"></span>
-
-                  }
-
-                </td>
-                <td class="text-center">
-                  <a data-hint="Edit" class="btn btn-warning btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
-                     data-toggle="tooltip" data-placement="top" title="@Lang.GetString("Edit")">
-                    <span class="glyphicon glyphicon-edit color-white" aria-hidden="true"></span>
-                  </a>
-                  <a data-hint="User Roles" class="btn btn-info btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
-                     data-toggle="tooltip" data-placement="top" title="@Lang.GetString("UserRoles", resourceFilename)">
-                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
-                  </a>
-                  <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                    <a data-hint="Delete" class="confirm btn btn-danger btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
-                      <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
-                    </a>
-                  </span>
-                </td>
-              </tr>
+                <tr>
+                    <td colspan="6">
+                        <div class="center">
+                            <h1>@Localization.GetString("NoUsersFound", @ResourceFile)</h1>
+                            <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
+                        </div>
+                    </td>
+                </tr>
             }
-          }
-        </tbody>
-      </table>
-      <div class="data-footer">
-        <span class="text-align-left">@Lang.GetString("Page") <strong>@pageView</strong> @Lang.GetString("Of") <strong>@(pageIndexTo == 999999 ? "1" : Model.PagesTotal.ToString())</strong> @Lang.GetString("Pages")</span>
-        <div class="right">
-          <span>@Lang.GetString("Showing")</span>
-          @if (pageIndexTo == 999999)
-          {
-            <span>@Lang.GetString("All")</span>
-          }
-          else
-          {
-            <span><strong>@pageIndexPaginate</strong> @Lang.GetString("To") <strong>@pageIndexTo</strong> @Lang.GetString("Of") </span>
-          }
-          <span>
-            <strong>@Model.RecordsTotal</strong> @Lang.GetString("Entries")
-          </span>
-          <a class="btn btn-default btn-sm " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
-             data-toggle="tooltip" data-placement="top" title="@Lang.GetString("Previus")">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          </a>
-          <a class="btn btn-default btn-sm ml5 " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
-             data-toggle="tooltip" data-placement="top" title="@Lang.GetString("Next")">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          </a>
-        </div>
-      </div>
-    </div>
+            else
+            {
+                foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td class="hidden">
+                            @item.UserId
+                        </td>
+                        <td>
+                            <a data-hint="Edit" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
+                                @item.Username
+                            </a>
+                        </td>
+                        <td>
+                            @item.DisplayName
+                        </td>
+                        <td>
+                            <a href="mailto:@item.Email" target="_blank">
+                                @item.Email
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            @if (@item.IsSuperUser == true)
+                            {
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:yellowgreen"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color:red"></span>
 
-    <script>
-    var deleteText = '@Lang.GetString("DeleteConfirmation.Text", resourceFilename)';
-    var deleteUnauthorizedText = '@Lang.GetString("DeleteUnauthorized.Text", resourceFilename)';
-    var removeDeleteText = '@Lang.GetString("RemoveDelete.Text", resourceFilename)';
+                            }
+
+                        </td>
+                        <td class="text-center">
+                            <a data-hint="Edit" class="btn btn-warning btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
+                                <span class="glyphicon glyphicon-edit color-white" aria-hidden="true"></span>
+                            </a>
+                            <a data-hint="User Roles" class="btn btn-info btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
+                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("UserRoles", @ResourceFile)">
+                                <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
+                            </a>
+                            <span id="dialogs-delete" class="dnnActions" style="display: initial;">
+                                <a data-hint="Delete" class="confirm btn btn-danger btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
+                                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="data-footer">
+        <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) <strong>@pageView</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.PagesTotal</strong> @Localization.GetString("Pages", @SharedResourceFile)</span>
+        <div class="right">
+            <span> @Localization.GetString("Showing", @SharedResourceFile) <strong>@pageIndexPaginate</strong> @Localization.GetString("To", @SharedResourceFile) <strong>@pageIndexTo</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)</span>
+            <a class="btn btn-default btn-sm " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn-default btn-sm ml5 " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
+    var deleteUnauthorizedText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteUnauthorized.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
+    var removeDeleteText = '@DotNetNuke.Services.Localization.Localization.GetString("RemoveDelete.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
 $(function () {
     $('.dropdown-toggle').dropdown();
 });
@@ -395,15 +292,4 @@ $(function () {
         text: '<p style="font-size:20px;">' + removeDeleteText + '</p>'
     });
 });
-    </script>
-
-    @functions {
-      public static IHtmlString GetOptionalSortIcon(string columnHeading, string orderBy, string order)
-      {
-        // <span>@Icon.Google("keyboard_double_arrow_down")</span>
-        if (orderBy != columnHeading) return new HtmlString(string.Empty);
-        const string returnTemplate = "<span>{0}</span>";
-        string iconName = order == "asc" ? "keyboard_double_arrow_up" : "keyboard_double_arrow_down";
-        return new HtmlString(string.Format(returnTemplate, Icon.Google(iconName)));
-      }
-    }
+</script>   
