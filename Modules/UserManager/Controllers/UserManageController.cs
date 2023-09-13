@@ -26,6 +26,7 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.Runtime.CompilerServices;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
@@ -158,7 +159,7 @@ namespace Upendo.Modules.UserManager.Controllers
                   ModelState.AddModelError("Username", "Invalid; Username does not meet requirements");
                   break;
                 default:
-                  ModelState.AddModelError(string.Empty, $"Create User Failed. Unhandled or Unknown UserCreateStatus: {userCreateStatus}");
+                  ModelState.AddModelError(string.Empty, string.Format("Create User Failed. Unhandled or Unknown UserCreateStatus: {0}", userCreateStatus));
                   break;
               }
               string errorMessage = UserController.GetUserCreateStatus(userCreateStatus);
@@ -268,10 +269,10 @@ namespace Upendo.Modules.UserManager.Controllers
 
                 var portalId = ModuleContext.PortalId;
 
-                bool isAdminOrSuperUser = currentUser.IsSuperUser || currentUser.IsInRole("Administrators");
+                bool isAdminOrSuperUser = currentUser.IsSuperUser || currentUser.IsInRole(PortalSettings.AdministratorRoleName);
                 var role = RolesRepository.GetRole(portalId, roleIdValue);
                 // Check if the role is "Administrators" and the user is not an administrator or superuser
-                if (role.RoleName == "Administrators" && !isAdminOrSuperUser)
+                if (role.RoleName == PortalSettings.AdministratorRoleName && !isAdminOrSuperUser)
                 {
                     ViewBag.User = UserRepository.GetUser(portalId, itemId);
                     var result1 = UserRepository.GetRolesByUser(takeValue, pageIndexValue, goToPage, portalId, search, itemId);
