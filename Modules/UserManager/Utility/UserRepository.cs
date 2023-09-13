@@ -48,6 +48,7 @@ namespace Upendo.Modules.UserManager.Utility
         /// Get all users by param
         /// </summary>
         /// <param name="pagination"></param>
+        /// <param name="portalId"></param>
         /// <returns></returns>
         public static DataTableResponse<Users> GetUsers(Pagination pagination, int portalId)
         {
@@ -137,12 +138,12 @@ namespace Upendo.Modules.UserManager.Utility
             var rolesViewModel = new List<RolesViewModel>();
             var userInfo = UserController.GetUserById(portalId, itemId);
             UserInfo currentUser = UserController.Instance.GetCurrentUserInfo();
-            bool isAdminOrSuperUser = currentUser.IsSuperUser || currentUser.IsInRole("Administrators");
+            bool isAdminOrSuperUser = currentUser.IsSuperUser || currentUser.IsInRole(PortalSettings.Current.AdministratorRoleName);
 
             foreach (var item in roles)
             {
                 if (item.Status != RoleStatus.Approved) continue;
-                if (item.RoleName == "Administrators" && !isAdminOrSuperUser) continue;
+                if (item.RoleName == PortalSettings.Current.AdministratorRoleName && !isAdminOrSuperUser) continue;
                 var rolViewModel = new RolesViewModel()
                 {
                     RoleId = item.RoleID,
