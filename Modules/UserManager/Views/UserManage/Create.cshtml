@@ -4,6 +4,7 @@
 @using DotNetNuke.Web.Mvc.Helpers
 @using DotNetNuke.Services.Localization;
 @using DotNetNuke.Security.Membership;
+@using DotNetNuke.Entities.Users;
 
 @{
   string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
@@ -57,10 +58,13 @@
       </div>
     </div>
     <div class="formItem col-12">
-      <div class="dnnFormItem col-3">
-        @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
-        <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
-      </div>
+      @if (UserController.Instance.GetCurrentUserInfo().IsSuperUser)
+      {
+        <div class="dnnFormItem col-3">
+          @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
+          <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+        </div>
+      }
       <div class="dnnFormItem col-3">
         @Html.CheckBoxFor(m => m.Approved, new { @id = "checkbox" })
         <label>@Localization.GetString("Approved", @ResourceFile)</label>
