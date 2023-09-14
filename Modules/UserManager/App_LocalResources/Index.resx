@@ -189,4 +189,7 @@
   <data name="Users.Text" xml:space="preserve">
     <value>Users</value>
   </data>
+  <data name="UserStatus.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

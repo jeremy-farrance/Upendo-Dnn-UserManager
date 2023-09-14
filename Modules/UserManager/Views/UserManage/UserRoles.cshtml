@@ -81,7 +81,7 @@
         <tr style="background-color: #6d5a2c; color: #FFFFFF">
             <th hidden></th>
             <th>@Localization.GetString("Role", @ResourceFile)</th>
-            <th style="text-align: center">@Localization.GetString("Actions", @ResourceFile)</th>
+            <th class="text-center">@Localization.GetString("Actions", @ResourceFile)</th>
         </tr>
         </thead>
         <tbody>
@@ -107,7 +107,7 @@
                     <td>
                         @item.RoleName
                     </td>
-                    <td style="text-align: center">
+                    <td class="text-center">
                         @if (@item.HasRole == true)
                         {
                             <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Remove" })"
