@@ -142,10 +142,6 @@
     color: white;
   }
 
-  .text-align-center {
-    text-align: center;
-  }
-
   .text-align-left {
     text-align: left;
   }
@@ -346,6 +342,10 @@
 
   .w-100 {
     width: 100%;
+  }
+
+  .text-center, .text-align-center {
+    text-align: center !important; 
   }
 
   details {
