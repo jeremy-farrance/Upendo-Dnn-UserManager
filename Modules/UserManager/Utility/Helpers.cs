@@ -33,6 +33,10 @@ namespace Upendo.Modules.UserManager.Utility
   /// <summary>Helpers for this module.</summary>
   public class Helpers
   {
+    // constant string.FOrmat template for open and close HTML tags
+    private const string HtmlTagOpenFormat = "<{0}>";
+    private const string HtmlTagCloseFormat = "</{0}>";
+
     /// <summary>Misc helper methods for this module.</summary>
     public class IconHelper
     /*
@@ -55,46 +59,72 @@ Icon.Get(iconSet: "glyph", iconName: "MUSIC"):    @Icon.Get(iconSet: "glyph", ic
 Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", iconSet: "Glyphs")
      */
     {
-      /// <summary>Gets HtmlString Icon string from the user manager resource file.</summary>
+      /// <summary>Gets HtmlString Icon string from the user manager resource file. Everything has a default, named: params recommended.</summary>
       /// <param name="iconName">The key/name of the icon key to get.</param>
       /// <param name="iconSize">xs, sm, md (default), lg, xl.</param>
       /// <param name="iconSet">The public icon setlocalization key to get (with or w/o file ext).</param>
+      /// <param name="iconTag">Default is <I>, but allows <SPAN> or others to be specified</param>
+      /// <param name="wrapperTag">An HTML tag to wrap the output in</param>
       /// <param name="styleColor">The foreground color. Any valid CSS style color syntax including names; https://developer.mozilla.org/en-US/docs/Web/CSS/color</param>
       /// <returns>A HtmlString containing the Icon to display.</returns>
-      public static IHtmlString Get(string iconName = "search", string iconSize = "md", string iconSet = Constants.DefaultIconSet, string styleColor = Constants.DefaultIconColor)
+      /// <remarks>for iconSize follow Tw/Bs conventions? xs, sm, md (default), lg, xl) and see https://developers.google.com/fonts/docs/material_icons#styling_icons_in_material_design (see https://www.w3schools.com/icons/google_icons_intro.asp and others)</remarks>
+      public static IHtmlString Get(string iconName = "search", string iconSize = "md", string iconSet = Constants.DefaultIconSet,
+        string iconTag = "i", string wrapperTag = "none",
+        string styleColor = Constants.DefaultIconColor,
+        string styleMargin = "0 0.5rem 0 0"
+      )
       {
-        // TODO implement wrapper tag; string htmlWrapperTag = "span"
-        // TODO implement inverse/contrast color; bool invertColor = false
-        // TODO implement Sizes (see https://www.w3schools.com/icons/google_icons_intro.asp and others); string size = "sm" (follow Tw/Bs conventions? xs, sm, md (default), lg, xl) and see https://developers.google.com/fonts/docs/material_icons#styling_icons_in_material_design
-        // TODO is it possible to only load the icon sets resources that are actually used/needed? See Views/Shared/_Layout.cshtml
-        // TOOD support other icon sets (e.g. Google Symbols or Bootstrap 5)? How would we resolve names between them? (e.g. "lock_outline" vs "lock")
-        iconName = iconName.ToLower();
+        // TOOD implement iconStyle for Normal, Default, Solid, Outlined, Rounded, TwoTone, Sharp, or Round or whatever they think up next; string iconStyle = "normal"
+        // TODO implement Heroicons (https://heroicons.com/)
+        // TODO implement FontAwesome (https://fontawesome.com/icons?d=gallery&p=2&m=free)
+        // TODO implement inverse/contrast color; bool invertColor = false (find that cool color/contrast inversion code from ???)
+        // TODO how would we implement it so that we only load the icon sets resources that are actually used/needed? See Views/Shared/_Layout.cshtml
+        // TOOD support other icon sets/styles (e.g. Google Symbols or Bootstrap 5)? How would we resolve names between them? (e.g. "lock_outline" vs "lock")
+        iconName = iconName.ToLower().Replace(' ', '_').Replace('-', '_');
+        // if wrapperTag is "none" then ignore
+        var wrapperTagOpen = wrapperTag == "none" ? "" : "<" + wrapperTag + ">";
+        var wrapperTagClose = wrapperTag == "none" ? "" : "</" + wrapperTag + ">";
         // if styleColor is "none" then don't add it, otherwise pass it in as a statement in the style attribute
         styleColor = styleColor == "none" ? "" : "color:" + styleColor + ";";
+        styleMargin = styleMargin == "none" ? "" : "margin:" + styleMargin + ";";
         switch (iconSet.ToLower())
         {
-          case "google":
-            return new HtmlString("<i class=\"material-icons " + iconSize + "\" style=\"" + styleColor + "margin-right:0.75rem;\" aria-hidden=\"true\">" + iconName + "</i>");
           case "glyph":
           case "glyphs":
           case "glyphicon":
           case "glyphicons":
-            return new HtmlString("<span class=\"glyphicon glyphicon-" + iconName + "\" style=\"" + styleColor + "margin-right:0.75rem;\" aria-hidden=\"true\"></span>");
+            return new HtmlString(wrapperTagOpen +
+              "<" + iconTag + " class=\"glyphicon glyphicon-" + iconName + "\" style=\"" + styleColor + styleMargin + "\" aria-hidden=\"true\"></" + iconTag + ">"
+              + wrapperTagClose
+            );
+          case "google": // is the default
           default:
-            return Get(iconName: iconName);
+            return new HtmlString(wrapperTagOpen +
+              "<" + iconTag + " class=\"material-icons " + iconSize + "\" style=\"" + styleColor + styleMargin + "\" aria-hidden=\"true\">" + iconName + "</" + iconTag + ">"
+              + wrapperTagClose
+            );
         }
       } 
-      /// <summary>Warpper for previous syntax.</summary>
-      public static IHtmlString Google(string iconName = "search", string iconSize = "md", string styleColor = "white")
+      /// <summary>Warpper for iconSet="google" syntax.</summary>
+      public static IHtmlString Google(string iconName = "search", string iconSize = "md",
+        string iconTag = "i", string wrapperTag = "none",
+        string styleColor = Constants.DefaultIconColor
+      )
       {
-        return Get(iconName: iconName, iconSet: "google", iconSize: iconSize, styleColor: styleColor);
+        return Get(iconName: iconName, iconSet: "google", iconSize: iconSize, iconTag: iconTag, wrapperTag: wrapperTag, styleColor: styleColor);
       }
-      /// <summary>Warpper for previous syntax.</summary>
-      public static IHtmlString Glyph(string iconName = "search", string styleColor = "white")
+      /// <summary>Warpper for previous (Bootstrap 3) Glyph syntax.</summary>
+      /// <remarks>Deprecated, remove after all Glyphs are gone</remarks>
+      [Obsolete("Use Icon.Get() with modern iconSets like Google, Hero, and FontAwesome. We are working towards removing Bootstrap 3 (which the Glyphicons were part of)")]
+      public static IHtmlString Glyph(string iconName = "search", string iconSize = "md",
+        string iconTag = "span", string wrapperTag = "none",
+        string styleColor = Constants.DefaultIconColor
+      )
       {
-        return Get(iconName: iconName, iconSet: "glyph", styleColor: styleColor);
+        return Get(iconName: iconName, iconSet: "glyph", iconSize: iconSize, iconTag: iconTag, wrapperTag: wrapperTag, styleColor: styleColor);
       }
     }
+
     /// <summary>Localization helper methods for this module.</summary>
     public class LocalizationHelper
     {
