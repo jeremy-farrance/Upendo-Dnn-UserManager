@@ -19,7 +19,7 @@
 *@
 
 @{
-  bool isDebug = false;
+  bool isDebug = true;
   var loggedInUser = UserController.Instance.GetCurrentUserInfo();
 
   // Important: see 'lang' above, default GetString() is shared, otherwise pass in the resource file name
@@ -74,7 +74,7 @@ Model.Data.Count:   >>@Model.Data.Count<<
     </details>
     <details>
       <summary>IconHelper details...</summary>
-<pre>
+      <pre>
 old way:
 GoogleIcon("lock_outline"): @Icon.Google("lock_outline") and GoogleIcon("near_me"): @Icon.Google("near_me")
 
@@ -82,11 +82,16 @@ new ways?
 Icon.Google("lock_outline"): @Icon.Google("lock_outline")
 Icon.Get("lock_outline", "google"):  @Icon.Get("lock_outline", "google")
 Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black") : @Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black")
+Icon.Get(iconName: "near-me") : @Icon.Get(iconName: "near-me")
+Icon.Get(iconName: "near me") : @Icon.Get(iconName: "near me")
+Icon.Get(iconName: "near_me") : @Icon.Get(iconName: "near_me")
 
 Icon.Get(): @Icon.Get()
 Icon.Get("booya"): @Icon.Get("booya") (does not exist)
 Icon.Get("star"): @Icon.Get("star")
 Icon.Get("lock", styleColor: "cyan"): @Icon.Get("lock", styleColor: "cyan")
+
+@Icon.Get() @Icon.Get("star") @Icon.Get("lock") @Icon.Get("near_me") @Icon.Get("audio") @Icon.Get("speaker", styleColor: "green") 
 
 Icon.Glyph("music"):                              @Icon.Glyph("music", "green")
 Icon.Get("music", "glyph"):                       @Icon.Get("music", "glyph", "blue")

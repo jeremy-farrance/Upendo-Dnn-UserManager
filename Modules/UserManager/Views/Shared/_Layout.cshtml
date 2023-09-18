@@ -33,14 +33,16 @@
 
   @*
     // conversion to dnn-elements started in DevAccuraty v1.09.00 20230909+ JRF
-    // note that we are doing type=module (esm)
+    // https://www.jsdelivr.com/package/npm/@dnncommunity/dnn-elements note that we are doing type=module (esm)
+    // original filePath: "https://cdn.jsdelivr.net/npm/@dnncommunity/dnn-elements@0/dist/dnn/dnn.esm.js",
+    // ESM: https://cdn.jsdelivr.net/npm/@dnncommunity/dnn-elements@0/dist/esm/dnn.min.js
   *@
   ClientResourceManager.RegisterScript(page: Dnn.DnnPage,
-    filePath: "https://cdn.jsdelivr.net/npm/@dnncommunity/dnn-elements@0/dist/dnn/dnn.esm.js",
+    filePath: "https://cdn.jsdelivr.net/npm/@dnncommunity/dnn-elements@0/dist/esm/dnn.min.js",
     priority: 112,
     provider: "DnnPageHeaderProvider",
     // htmlAttributes: new Dictionary<string, string> { { "type", "module" }, { "async defer crossorigin", "anonymous" } }
-    htmlAttributes: new Dictionary<string, string> { { "type", "module" }, { "crossorigin", "anonymous" } }
+    htmlAttributes: new Dictionary<string, string> { { "type", "module" }, { "async crossorigin", "anonymous" } }
   );
 
 }
