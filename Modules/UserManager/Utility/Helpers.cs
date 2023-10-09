@@ -28,7 +28,6 @@ namespace Upendo.Modules.UserManager.Utility
   using DotNetNuke.Services.Localization;
   using System.Drawing;
   using System.Web.WebPages;
-  using Upendo.Modules.UserManager.Components;
 
   /// <summary>Helpers for this module.</summary>
   public class Helpers
@@ -40,34 +39,37 @@ namespace Upendo.Modules.UserManager.Utility
     /// <summary>Misc helper methods for this module.</summary>
     public class IconHelper
     /*
-old way:
-GoogleIcon("lock_outline"):                       @Icon.Google("lock_outline") and GoogleIcon("near_me"): @Icon.Google("near_me")
+      old way:
+      GoogleIcon("lock_outline"):                       @Icon.Google("lock_outline") and GoogleIcon("near_me"): @Icon.Google("near_me")
 
-new ways?
-Icon.Google("lock_outline"):                                            @Icon.Google("lock_outline")
-Icon.Get("lock_outline", "google"):                                     @Icon.Get("lock_outline", "google")
-Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black") : @Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black") 
+      new ways?
+      Icon.Google("lock_outline"):                                            @Icon.Google("lock_outline")
+      Icon.Get("lock_outline", "google"):                                     @Icon.Get("lock_outline", "google")
+      Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black") : @Icon.Get(iconSet: "google", iconName: "near_me", styleColor: "black") 
 
-Icon.Get():                           @Icon.Get()
-Icon.Get("lock", styleColor: "cyan"): @Icon.Get("lock", styleColor: "cyan") 
-Icon.Get("booya"):                    @Icon.Get("booya") (does not exist)
-Icon.Get("star"):                     @Icon.Get("star") 
+      Icon.Get():                           @Icon.Get()
+      Icon.Get("lock", styleColor: "cyan"): @Icon.Get("lock", styleColor: "cyan") 
+      Icon.Get("booya"):                    @Icon.Get("booya") (does not exist)
+      Icon.Get("star"):                     @Icon.Get("star") 
 
-Icon.Glyph("music"):                              @Icon.Glyph("music", "green") 
-Icon.Get("music", "glyph"):                       @Icon.Get("music", "glyph", "blue")
-Icon.Get(iconSet: "glyph", iconName: "MUSIC"):    @Icon.Get(iconSet: "glyph", iconName: "MUSIC")
-Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", iconSet: "Glyphs")
+      Icon.Glyph("music"):                              @Icon.Glyph("music", "green") 
+      Icon.Get("music", "glyph"):                       @Icon.Get("music", "glyph", "blue")
+      Icon.Get(iconSet: "glyph", iconName: "MUSIC"):    @Icon.Get(iconSet: "glyph", iconName: "MUSIC")
+      Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", iconSet: "Glyphs")
      */
     {
       /// <summary>Gets HtmlString Icon string from the user manager resource file. Everything has a default, named: params recommended.</summary>
       /// <param name="iconName">The key/name of the icon key to get.</param>
       /// <param name="iconSize">xs, sm, md (default), lg, xl.</param>
       /// <param name="iconSet">The public icon setlocalization key to get (with or w/o file ext).</param>
-      /// <param name="iconTag">Default is <I>, but allows <SPAN> or others to be specified</param>
+      /// <param name="iconTag">Default is &lt;I&gt;, but allows &lt;SPAN&gt; or others to be specified</param>
       /// <param name="wrapperTag">An HTML tag to wrap the output in</param>
-      /// <param name="styleColor">The foreground color. Any valid CSS style color syntax including names; https://developer.mozilla.org/en-US/docs/Web/CSS/color</param>
+      /// <param name="styleColor">Set the foreground color using inline style. Any valid CSS style color syntax including names; https://developer.mozilla.org/en-US/docs/Web/CSS/color</param>
+      /// <param name="styleMargin">Set Margins using inline style</param>
       /// <returns>A HtmlString containing the Icon to display.</returns>
-      /// <remarks>for iconSize follow Tw/Bs conventions? xs, sm, md (default), lg, xl) and see https://developers.google.com/fonts/docs/material_icons#styling_icons_in_material_design (see https://www.w3schools.com/icons/google_icons_intro.asp and others)</remarks>
+      /// <remarks>for iconSize follow Tw/Bs conventions? xs, sm, md (default), lg, xl) 
+      /// see https://developers.google.com/fonts/docs/material_icons#styling_icons_in_material_design 
+      /// (see https://www.w3schools.com/icons/google_icons_intro.asp and others)</remarks>
       public static IHtmlString Get(string iconName = "search", string iconSize = "md", string iconSet = Constants.DefaultIconSet,
         string iconTag = "i", string wrapperTag = "none",
         string styleColor = Constants.DefaultIconColor,
@@ -75,6 +77,7 @@ Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", i
       )
       {
         // TOOD implement iconStyle for Normal, Default, Solid, Outlined, Rounded, TwoTone, Sharp, or Round or whatever they think up next; string iconStyle = "normal"
+        // TODO implement modern Bootstrap Icons (https://icons.getbootstrap.com/) (standalone since Aug 2020)
         // TODO implement Heroicons (https://heroicons.com/)
         // TODO implement FontAwesome (https://fontawesome.com/icons?d=gallery&p=2&m=free)
         // TODO implement inverse/contrast color; bool invertColor = false (find that cool color/contrast inversion code from ???)
@@ -108,20 +111,22 @@ Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", i
       /// <summary>Warpper for iconSet="google" syntax.</summary>
       public static IHtmlString Google(string iconName = "search", string iconSize = "md",
         string iconTag = "i", string wrapperTag = "none",
-        string styleColor = Constants.DefaultIconColor
+        string styleColor = Constants.DefaultIconColor,
+        string styleMargin = "0 0.5rem 0 0"
       )
       {
-        return Get(iconName: iconName, iconSet: "google", iconSize: iconSize, iconTag: iconTag, wrapperTag: wrapperTag, styleColor: styleColor);
+        return Get(iconName: iconName, iconSet: "google", iconSize: iconSize, iconTag: iconTag, wrapperTag: wrapperTag, styleColor: styleColor, styleMargin: styleMargin);
       }
       /// <summary>Warpper for previous (Bootstrap 3) Glyph syntax.</summary>
       /// <remarks>Deprecated, remove after all Glyphs are gone</remarks>
       [Obsolete("Use Icon.Get() with modern iconSets like Google, Hero, and FontAwesome. We are working towards removing Bootstrap 3 (which the Glyphicons were part of)")]
       public static IHtmlString Glyph(string iconName = "search", string iconSize = "md",
         string iconTag = "span", string wrapperTag = "none",
-        string styleColor = Constants.DefaultIconColor
+        string styleColor = Constants.DefaultIconColor,
+        string styleMargin = "0 0.5rem 0 0"
       )
       {
-        return Get(iconName: iconName, iconSet: "glyph", iconSize: iconSize, iconTag: iconTag, wrapperTag: wrapperTag, styleColor: styleColor);
+        return Get(iconName: iconName, iconSet: "glyph", iconSize: iconSize, iconTag: iconTag, wrapperTag: wrapperTag, styleColor: styleColor, styleMargin: styleMargin);
       }
     }
 
@@ -132,6 +137,7 @@ Icon.Get(iconName: "Music", iconSet: "glyph"):    @Icon.Get(iconName: "Music", i
       /// <param name="resourceFilename">The localization key to get (with or w/o file ext).</param>
       /// <param name="key">The localization key to get.</param>
       /// <returns>A string containing the localized text.</returns>
+      /// <remarks>@using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;</remarks>
       public static string GetString(string key, string resourceFilename)
       {
         return Localization.GetString(key, Constants.ResourcesPath + EnsureExt(resourceFilename));

@@ -1,52 +1,54 @@
 @inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.RolesViewModel>
-@using System.Collections.Generic
+
 @using DotNetNuke.Web.Mvc.Helpers
-@using DotNetNuke.Services.Localization;
+@using Upendo.Modules.UserManager.Utility
+
+@using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper
 
 @{
-    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEditRoles.resx";
+  string ResourceName = "AddEditRoles";
 }
 <div class="dnnDialog">
-    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-    {
-        <div class="dnnFormMessage dnnFormError">
-            <p>@ViewBag.ErrorMessage</p>
-        </div>
-    }
-    <fieldset>
-        <div class="dnnFormItem">
-            <div><label>@Localization.GetString("RoleName", @ResourceFile)</label></div>
-            @Html.TextBoxFor(m => m.RoleName)
-        </div>
-        <div class="dnnFormItem">
-            <div><label>@Localization.GetString("Description", @ResourceFile)</label></div>
-            @Html.TextBoxFor(m => m.Description)
-        </div>
-        <div class="dnnFormItem">
-            <div><label>@Localization.GetString("RoleGroup", @ResourceFile)</label></div>
-            @Html.DropDownListFor(m => m.RoleGroupID, new SelectList(ViewBag.RoleGroups, "RoleGroupId",
-            "RoleGroupName"))
-        </div>
-        <div class="dnnFormItem">
-            <div><label>@Localization.GetString("Status", @ResourceFile)</label></div>
-            @Html.DropDownListFor(m => m.Status, new SelectList(ViewBag.StatusList, "Status",
-            "Name"))
-        </div>
-        <div class="dnnFormItem col-3">
-            @Html.CheckBoxFor(m => m.AutoAssignment, new { @id = "chkAutoAssign" })
-            <label for="chkAutoAssign">@Localization.GetString("AutoAssignment", @ResourceFile)</label>
-        </div>
-        <div class="dnnFormItem col-3">
-            @Html.CheckBoxFor(m => m.IsPublic, new { @id = "chkIsPublic" })
-            <label for="chkIsPublic">@Localization.GetString("IsPublic", @ResourceFile)</label>
-        </div>
-
-        @Html.HiddenFor(m => m.RoleId)
-    </fieldset>
-    <div class="buttonForm mt20">
-        <button type="submit" class="dnnPrimaryAction">@Localization.GetString("Save", @ResourceFile)</button>
-        <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Dnn.LocalizeString("Cancel")</button>
+  @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+  {
+    <div class="dnnFormMessage dnnFormError">
+      <p>@ViewBag.ErrorMessage</p>
     </div>
+  }
+  <fieldset>
+    <div class="dnnFormItem">
+      <div><label>@Lang.GetString("RoleName", ResourceName)</label></div>
+      @Html.TextBoxFor(m => m.RoleName)
+    </div>
+    <div class="dnnFormItem">
+      <div><label>@Lang.GetString("Description", ResourceName)</label></div>
+      @Html.TextBoxFor(m => m.Description)
+    </div>
+    <div class="dnnFormItem">
+      <div><label>@Lang.GetString("RoleGroup", ResourceName)</label></div>
+      @Html.DropDownListFor(m => m.RoleGroupID, new SelectList(ViewBag.RoleGroups, "RoleGroupId",
+      "RoleGroupName"))
+    </div>
+    <div class="dnnFormItem">
+      <div><label>@Lang.GetString("Status", ResourceName)</label></div>
+      @Html.DropDownListFor(m => m.Status, new SelectList(ViewBag.StatusList, "Status",
+      "Name"))
+    </div>
+    <div class="dnnFormItem col-3">
+      @Html.CheckBoxFor(m => m.AutoAssignment, new { @id = "chkAutoAssign" })
+      <label for="chkAutoAssign">@Lang.GetString("AutoAssignment", ResourceName)</label>
+    </div>
+    <div class="dnnFormItem col-3">
+      @Html.CheckBoxFor(m => m.IsPublic, new { @id = "chkIsPublic" })
+      <label for="chkIsPublic">@Lang.GetString("IsPublic", ResourceName)</label>
+    </div>
+
+    @Html.HiddenFor(m => m.RoleId)
+  </fieldset>
+  <div class="buttonForm mt20">
+    <button type="submit" class="dnnPrimaryAction">@Lang.GetString("Save", ResourceName)</button>
+    <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Dnn.LocalizeString("Cancel")</button>
+  </div>
 </div>
 <script type="text/javascript">
     /*globals jQuery, window, Sys */

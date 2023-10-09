@@ -20,24 +20,22 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Security.Membership;
-using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
-using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
-using System.Runtime.CompilerServices;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
+
+using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
     [DnnHandleError]
     public class UserManageController : DnnController
     {
-        private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
-        private readonly string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+        private readonly string ResourceName = "UserManageController";
 
         public UserManageController()
         {
@@ -55,7 +53,7 @@ namespace Upendo.Modules.UserManager.Controllers
             // Check if the user is authenticated and has the required permission
             if (!isAuthenticated || !hasPermission)
             {
-                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                string errorMessage = Lang.GetString("NotPermissions.Text", ResourceName);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }
@@ -68,32 +66,29 @@ namespace Upendo.Modules.UserManager.Controllers
                 var takeValue = take ?? default;
                 var pageIndexValue = take == null ? default : pageIndex.Value;
                 var portalId = ModuleContext.PortalId;
+                string authorized = Lang.GetString("Authorized");
                 switch (filter)
                 {
                     case "All":
-                        ViewBag.Filter = Localization.GetString("All", SharedResourceFile); ;
+                        ViewBag.Filter = Lang.GetString("All"); ;
                         break;
                     case "Authorized":
-                        ViewBag.Filter = Localization.GetString("Authorized", SharedResourceFile);
+                        ViewBag.Filter = authorized;
                         break;
                     case "Unauthorized":
-                        ViewBag.Filter = Localization.GetString("Unauthorized", SharedResourceFile);
+                        ViewBag.Filter = Lang.GetString("Unauthorized");
                         break;
                     case "Deleted":
-                        ViewBag.Filter = Localization.GetString("Deleted", SharedResourceFile);
+                        ViewBag.Filter = Lang.GetString("Deleted");
                         break;
                     case "SuperUsers":
                         // Determine the appropriate filter value based on whether the current user is a SuperUser
-                        filter = currentUser.IsSuperUser ? "SuperUsers" : "Authorized";
-
-                        // Set the ViewBag.Filter message based on whether the current user is a SuperUser
-                        ViewBag.Filter = currentUser.IsSuperUser
-                            ? Localization.GetString("SuperUsers", SharedResourceFile)
-                            : Localization.GetString("Authorized", SharedResourceFile);
+                        filter = currentUser.IsSuperUser ? "SuperUsers" : authorized;
+                        ViewBag.Filter = filter;
                         break;
                     default:
                         filter = "Authorized";
-                        ViewBag.Filter = Localization.GetString("Authorized", SharedResourceFile);
+                        ViewBag.Filter = authorized;
                         break;
                 }
                 var pagination = new Pagination()
@@ -138,6 +133,7 @@ namespace Upendo.Modules.UserManager.Controllers
             {
               switch (userCreateStatus)
               {
+                // https://github.com/dnnsoftware/Dnn.Platform/blob/5f4603c28af69d236d0185e9fc04d232ceb88490/DNN%20Platform/Library/Entities/Users/UserController.cs#L708
                 case UserCreateStatus.DuplicateEmail:
                   ModelState.AddModelError("Email", "Duplicate; Email Address already in use on another User Account");
                   break;
@@ -249,7 +245,7 @@ namespace Upendo.Modules.UserManager.Controllers
             // Check if the user is authenticated and has the required permission
             if (!isAuthenticated || !hasPermission)
             {
-                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                string errorMessage = Lang.GetString("NotPermissions.Text", ResourceName);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }

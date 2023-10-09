@@ -22,7 +22,8 @@ using System.Linq;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.ViewModels;
 using DotNetNuke.Security.Roles;
-using DotNetNuke.Services.Localization;
+
+using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -87,12 +88,12 @@ namespace Upendo.Modules.UserManager.Utility
             var roleGroups = RoleController.GetRoleGroups(portalId).ToArray();
             var groups = new List<RoleGroups>();
 
-            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
+            string ResourceName = "RolesManageController";
             // Add global roles to the groups list
             var rolGroup = new RoleGroups()
             {
                 RoleGroupId = -1,
-                RoleGroupName = Localization.GetString("GlobalRoles.Text", ResourceFile),
+                RoleGroupName = Lang.GetString("GlobalRoles.Text", ResourceName),
             };
             groups.Add(rolGroup);
 
@@ -144,12 +145,12 @@ namespace Upendo.Modules.UserManager.Utility
         }
         public static List<object> StatusList()
         {
-            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
+            string ResourceName = "RolesManageController";
             var statusList = new List<object>
             {
-               new { Status = 1, Name = Localization.GetString("Approved.Text", ResourceFile) },
-               new { Status = -1, Name = Localization.GetString("Pending.Text", ResourceFile) },
-               new { Status = 0, Name = Localization.GetString("Disabled.Text", ResourceFile) },
+               new { Status = 1, Name = Lang.GetString("Approved.Text", ResourceName) },
+               new { Status = -1, Name = Lang.GetString("Pending.Text", ResourceName) },
+               new { Status = 0, Name = Lang.GetString("Disabled.Text", ResourceName) },
             };
             return statusList;
         }
