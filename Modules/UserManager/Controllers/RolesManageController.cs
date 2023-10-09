@@ -19,20 +19,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Security.Roles;
-using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
 
+using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;
+
 namespace Upendo.Modules.UserManager.Controllers
 {
     [DnnHandleError]
     public class RolesManageController : DnnController
     {
-        private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
-        private readonly string RolesResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
+        private readonly string ResourceName = "UserManageController";
+        private readonly string RolesResourceName = "RolesManageController";
 
         public RolesManageController()
         {
@@ -50,7 +51,7 @@ namespace Upendo.Modules.UserManager.Controllers
             // Check if the user is authenticated and has the required permission
             if (!isAuthenticated || !hasPermission)
             {
-                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                string errorMessage = Lang.GetString("NotPermissions.Text", ResourceName);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }
@@ -85,7 +86,7 @@ namespace Upendo.Modules.UserManager.Controllers
             {
                 ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
                 ViewBag.StatusList = RolesRepository.StatusList();
-                ViewBag.ErrorMessage = Localization.GetString("RoleNameExists.Text", RolesResourceFile);
+                ViewBag.ErrorMessage = Lang.GetString("RoleNameExists.Text", RolesResourceName);
                 return View(item);
             }
 
@@ -114,7 +115,7 @@ namespace Upendo.Modules.UserManager.Controllers
             {
                 ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
                 ViewBag.StatusList = RolesRepository.StatusList();
-                ViewBag.ErrorMessage = Localization.GetString("RoleNameExists.Text", RolesResourceFile);
+                ViewBag.ErrorMessage = Lang.GetString("RoleNameExists.Text", RolesResourceName);
                 return View(item);
             }
 

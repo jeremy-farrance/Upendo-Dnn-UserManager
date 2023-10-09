@@ -1,112 +1,113 @@
 @inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.UserViewModel>
 
-@using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
-@using DotNetNuke.Services.Localization;
+@using Upendo.Modules.UserManager.Utility
+
+@using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper
 
 @{
-    string defaultUserPicture = "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/defaultUserPicture.jpg";
-    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
+  string defaultUserPicture = "/" + Constants.ModulePath + "Images/defaultUserPicture.jpg";
+  string ResourceName = "AddEdit";
 }
 <div class="col-7">
-    <div class="accountSettings">
-        <h4 class="">@Localization.GetString("AccountSettings", @ResourceFile)</h4>
-        @if (!ViewData.ModelState.IsValid)
-        {
-            <div class="alert alert-danger">
-                @Html.ValidationSummary(false, "", new { @class = "" })
-            </div>
-        }
-        <fieldset>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("FirstName", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.FirstName)
-                @Html.ValidationMessageFor(m => m.FirstName)
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("LastName", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.LastName)
-                @Html.ValidationMessageFor(m => m.LastName)
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("Username", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.Username)
-                @Html.ValidationMessageFor(m => m.Username)
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>           
-            <div class="col-12 mt20" style="font-size: 16px;">
-                <div class="col-6">
-                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser", @class = "superuser-checkbox" })
-                    <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
-                </div>
-                <div class="col-3">
-                    @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
-                    <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
-                </div>
-                <div class="col-3">
-                    @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
-                    <label for="chkIsDeleted">@Localization.GetString("IsDeleted", @ResourceFile)</label>
-                </div>
-                <div class="col-6">
-                    @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
-                    <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
-                </div>
-                @Html.HiddenFor(m => m.UserId)
-            </div>
-        </fieldset>
-        <div class="col-12 mt5">
-            <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
-                <span class="color-white">@Localization.GetString("UserRoleManagement", @ResourceFile)</span>
-            </a>
-            <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("PasswordResetLink", "UserManage", new {itemId = @Model.UserId})">
-                <span class="color-white">@Localization.GetString("PasswordResetLink", @ResourceFile)</span>
-            </a>
+  <div class="accountSettings">
+    <h4 class="">@Lang.GetString("AccountSettings", ResourceName)</h4>
+    @if (!ViewData.ModelState.IsValid)
+    {
+      <div class="alert alert-danger">
+        @Html.ValidationSummary(false, "", new { @class = "" })
+      </div>
+    }
+    <fieldset>
+      <div class="formItem col-6">
+        <div><label>@Lang.GetString("FirstName", ResourceName)</label></div>
+        @Html.TextBoxFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+      </div>
+      <div class="formItem col-6">
+        <div><label>@Lang.GetString("LastName", ResourceName)</label></div>
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+      </div>
+      <div class="formItem col-6">
+        <div><label>@Lang.GetString("Username", ResourceName)</label></div>
+        @Html.TextBoxFor(m => m.Username)
+        @Html.ValidationMessageFor(m => m.Username)
+      </div>
+      <div class="formItem col-6">
+        <div><label>@Lang.GetString("Email", ResourceName)</label></div>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+        @Html.ValidationMessageFor(m => m.Email)
+      </div>
+      <div class="col-12 mt20" style="font-size: 16px;">
+        <div class="col-6">
+          @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser", @class = "superuser-checkbox" })
+          <label for="chkIsSuperuser">@Lang.GetString("IsSuperUser", ResourceName)</label>
         </div>
+        <div class="col-3">
+          @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
+          <label for="chkApproved">@Lang.GetString("Approved", ResourceName)</label>
+        </div>
+        <div class="col-3">
+          @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
+          <label for="chkIsDeleted">@Lang.GetString("IsDeleted", ResourceName)</label>
+        </div>
+        <div class="col-6">
+          @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
+          <label for="chkSendEmail">@Lang.GetString("SendEmailNewUser", ResourceName)</label>
+        </div>
+        @Html.HiddenFor(m => m.UserId)
+      </div>
+    </fieldset>
+    <div class="col-12 mt5">
+      <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
+        <span class="color-white">@Lang.GetString("UserRoleManagement", ResourceName)</span>
+      </a>
+      <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("PasswordResetLink", "UserManage", new {itemId = @Model.UserId})">
+        <span class="color-white">@Lang.GetString("PasswordResetLink", ResourceName)</span>
+      </a>
     </div>
+  </div>
 </div>
 <div class="col-5">
-    <h4 class="">@Localization.GetString("AccountData", @ResourceFile)</h4>
-    <div class="accountData">
-        <div>
-            <img src=@defaultUserPicture alt="User" width="200" height="200" class="float-right">
-        </div>
-        <p>@Localization.GetString("UserId", @ResourceFile) @Model.UserId</p>
-        <p>@Localization.GetString("DisplayName", @ResourceFile) @Model.DisplayName</p>
-        <p>@Localization.GetString("CreatedOnDate", @ResourceFile) @Model.CreatedOnDate</p>
-        <p>@Localization.GetString("LastModifiedOnDate", @ResourceFile) @Model.LastModifiedOnDate</p>
-        <p>@Localization.GetString("UpdatePassword", @ResourceFile) @Model.UpdatePassword</p>
-        <h4>@Localization.GetString("UserRoles", @ResourceFile)</h4>
-        <ul>
-            @{
-                foreach (var item in Model.UserRoles)
-                {
-                    <li> @item</li>
-                }
-            }
-        </ul>
+  <h4 class="">@Lang.GetString("AccountData", ResourceName)</h4>
+  <div class="accountData">
+    <div>
+      <img src=@defaultUserPicture alt="User" width="200" height="200" class="float-right">
     </div>
+    <p>@Lang.GetString("UserId", ResourceName) @Model.UserId</p>
+    <p>@Lang.GetString("DisplayName", ResourceName) @Model.DisplayName</p>
+    <p>@Lang.GetString("CreatedOnDate", ResourceName) @Model.CreatedOnDate</p>
+    <p>@Lang.GetString("LastModifiedOnDate", ResourceName) @Model.LastModifiedOnDate</p>
+    <p>@Lang.GetString("UpdatePassword", ResourceName) @Model.UpdatePassword</p>
+    <h4>@Lang.GetString("UserRoles", ResourceName)</h4>
+    <ul>
+      @{
+        foreach (var item in Model.UserRoles)
+        {
+          <li> @item</li>
+        }
+      }
+    </ul>
+  </div>
 </div>
 <div class="col-12 mt20">
-    <div class="buttonForm">
-        <div class="center">
-            <button type="submit" class="dnnPrimaryAction" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
-            <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>
-        </div>
+  <div class="buttonForm">
+    <div class="center">
+      <button type="submit" class="dnnPrimaryAction" id="saveButton">@Lang.GetString("Save", ResourceName)</button>
+      <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Lang.GetString("Cancel", ResourceName)</button>
     </div>
+  </div>
 </div>
 <script>
 
 </script>
 <script type="text/javascript">
-     var weak = '@DotNetNuke.Services.Localization.Localization.GetString("Weak.Text", @ResourceFile)';
-    var fair = '@DotNetNuke.Services.Localization.Localization.GetString("Fair.Text", @ResourceFile)';
-    var strong = '@DotNetNuke.Services.Localization.Localization.GetString("Strong.Text", @ResourceFile)';
-    var passwordMatch = '@DotNetNuke.Services.Localization.Localization.GetString("PasswordMatch.Text", @ResourceFile)';
-    var match = '@DotNetNuke.Services.Localization.Localization.GetString("Match.Text", @ResourceFile)';
+     var weak = '@Lang.GetString("Weak.Text", ResourceName)';
+    var fair = '@Lang.GetString("Fair.Text", ResourceName)';
+    var strong = '@Lang.GetString("Strong.Text", ResourceName)';
+    var passwordMatch = '@Lang.GetString("PasswordMatch.Text", ResourceName)';
+    var match = '@Lang.GetString("Match.Text", ResourceName)';
 
     function validatePassStrength(pass, minLength, minNumberOfSpecialChars, validationExpression) {
         var passwordElement = document.getElementById('password');

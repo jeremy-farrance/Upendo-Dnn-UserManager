@@ -1,18 +1,18 @@
 @inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.UserViewModel>
 
-@using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
-@using DotNetNuke.Services.Localization;
-@using DotNetNuke.Security.Membership;
-@using DotNetNuke.Entities.Users;
+@using DotNetNuke.Security.Membership
+@using DotNetNuke.Entities.Users
+
+@using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper
 
 @{
-  string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
+  string ResourceName = "AddEdit";
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
   <div class="col-md-12">
     <div class="col-md-12">
-      <h2>@Localization.GetString("CreateUser", @ResourceFile)</h2>
+      <h2>@Lang.GetString("CreateUser", ResourceName)</h2>
     </div>
   </div>
   <hr />
@@ -24,35 +24,35 @@
       @Html.ValidationSummary(false, "", new { @class = "" })
     </div>
     <div class="formItem col-6">
-      <div><label>@Localization.GetString("FirstName", @ResourceFile)</label></div>
+      <div><label>@Lang.GetString("FirstName", ResourceName)</label></div>
       @Html.TextBoxFor(m => m.FirstName)
       @Html.ValidationMessageFor(m => m.FirstName)
     </div>
     <div class="formItem col-6">
-      <div><label>@Localization.GetString("LastName", @ResourceFile)</label></div>
+      <div><label>@Lang.GetString("LastName", ResourceName)</label></div>
       @Html.TextBoxFor(m => m.LastName)
       @Html.ValidationMessageFor(m => m.LastName)
-</div>
+    </div>
     <div class="formItem col-6">
-      <div><label>@Localization.GetString("Username", @ResourceFile)</label></div>
+      <div><label>@Lang.GetString("Username", ResourceName)</label></div>
       @Html.TextBoxFor(m => m.Username)
       @Html.ValidationMessageFor(m => m.Username)
-</div>
+    </div>
     <div class="formItem col-6">
-      <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
+      <div><label>@Lang.GetString("Email", ResourceName)</label></div>
       @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", id = "email", onkeyup = "validate();" })
       <div id="emailMessage"></div>
       @Html.ValidationMessageFor(m => m.Email)
-</div>
+    </div>
     <div class="formItem col-12 mt5">
       <div class="formItem col-6">
-        <div><label>@Localization.GetString("Password", @ResourceFile)</label></div>
+        <div><label>@Lang.GetString("Password", ResourceName)</label></div>
         @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @id = "password", @type = "password", onkeyup = "handlePasswordValidation();" })
         @Html.ValidationMessageFor(m => m.Password)
         <span id="passwordValidationMessage"></span>
       </div>
       <div class="formItem col-6">
-        <div><label>@Localization.GetString("ConfirmPassword", @ResourceFile)</label></div>
+        <div><label>@Lang.GetString("ConfirmPassword", ResourceName)</label></div>
         @Html.TextBoxFor(m => m.ConfirmPassword, new { @id = "confirm_password", @type = "password", onkeyup = "validate();" })
         <span id='message'></span>
       </div>
@@ -62,36 +62,36 @@
       {
         <div class="dnnFormItem col-3">
           @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
-          <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+          <label>@Lang.GetString("IsSuperUser", ResourceName)</label>
         </div>
       }
       <div class="dnnFormItem col-3">
         @Html.CheckBoxFor(m => m.Approved, new { @id = "checkbox" })
-        <label>@Localization.GetString("Approved", @ResourceFile)</label>
+        <label>@Lang.GetString("Approved", ResourceName)</label>
       </div>
       <div class="dnnFormItem col-4">
         @Html.CheckBoxFor(m => m.SendEmail, new { @id = "checkbox" })
-        <label>@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
+        <label>@Lang.GetString("SendEmailNewUser", ResourceName)</label>
       </div>
     </div>
   </fieldset>
   <div class="buttonForm mt20">
     <div class="center">
-      <button type="submit" class="disabled" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
+      <button type="submit" class="disabled" id="saveButton">@Lang.GetString("Save", ResourceName)</button>
       <a type="button" class="cancel-button" style="color: white;" href="@Url.Action("Index", "UserManage")">
-        @Localization.GetString("Cancel", @ResourceFile)
+        @Lang.GetString("Cancel", ResourceName)
       </a>
     </div>
   </div>
 </div>
 <script type="text/javascript">
-    var weak = '@Localization.GetString("Weak.Text", @ResourceFile)';
-    var fair = '@Localization.GetString("Fair.Text", @ResourceFile)';
-    var strong = '@Localization.GetString("Strong.Text", @ResourceFile)';
-    var passwordMatch = '@Localization.GetString("PasswordMatch.Text", @ResourceFile)';
-    var match = '@Localization.GetString("Match.Text", @ResourceFile)';
-    var invalidEmailAddress = '@Localization.GetString("InvalidEmailAddress.Text", @ResourceFile)';
-    var validEmailAddress = '@Localization.GetString("ValidEmailAddress.Text", @ResourceFile)';
+    var weak = '@Lang.GetString("Weak.Text", ResourceName)';
+    var fair = '@Lang.GetString("Fair.Text", ResourceName)';
+    var strong = '@Lang.GetString("Strong.Text", ResourceName)';
+    var passwordMatch = '@Lang.GetString("PasswordMatch.Text", ResourceName)';
+    var match = '@Lang.GetString("Match.Text", ResourceName)';
+    var invalidEmailAddress = '@Lang.GetString("InvalidEmailAddress.Text", ResourceName)';
+    var validEmailAddress = '@Lang.GetString("ValidEmailAddress.Text", ResourceName)';
 
     function validatePassStrength(pass, minLength, minNumberOfSpecialChars, validationExpression) {
         var passwordElement = document.getElementById('password');

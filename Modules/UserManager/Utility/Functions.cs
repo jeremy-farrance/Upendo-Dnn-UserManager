@@ -28,9 +28,12 @@ using DotNetNuke.Security.Permissions;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
+using System.Net.NetworkInformation;
 
 namespace Upendo.Modules.UserManager.Utility
 {
+  using Text = Upendo.Modules.UserManager.Utility.Helpers.TextHelper;
+
     public class Functions
     {
         public static Users MakeUser(UserInfo u)
@@ -78,7 +81,8 @@ namespace Upendo.Modules.UserManager.Utility
             }
             var usersTotal = users.Count();
             double pagesTotal = usersTotal / pagination.Take;
-            if (!string.IsNullOrEmpty(pagination.Search) && pagination.Search != " ")
+            // if (!string.IsNullOrEmpty(pagination.Search) && pagination.Search != " ")
+            if (Text.Has(pagination.Search)) 
             {
                 string searchTerm = pagination.Search.Trim().ToLower();
                 users = users
@@ -96,7 +100,8 @@ namespace Upendo.Modules.UserManager.Utility
             }
             users = users.Skip(pagination.PageIndex).Take((int)pagination.Take).ToList();
             pagesTotal = Math.Ceiling(Math.Max(pagesTotal, 2)) == 0 ? 1 : Math.Ceiling(Math.Max(pagesTotal, 2));
-            if (!string.IsNullOrEmpty(pagination.OrderBy))
+            // if (!string.IsNullOrEmpty(pagination.OrderBy)) 
+            if (Text.Has(pagination.OrderBy))
             {
                 switch (pagination.OrderBy)
                 {
@@ -122,7 +127,8 @@ namespace Upendo.Modules.UserManager.Utility
             using (var connection = new SqlConnection(connectionString))
             {
                 var pageIndex = pagination.PageIndex == 0 ? 1 : pagination.PageIndex;
-                var search = string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search;
+                // var search = string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search;
+                var search = Text.Has(pagination.Search) ? pagination.Search : "";
                 var totalRecordsParameter = new SqlParameter("@TotalRecords", SqlDbType.Int);
                 totalRecordsParameter.Direction = ParameterDirection.Output;
                 var command = new SqlCommand("UUM_GetUsers", connection);
@@ -210,7 +216,8 @@ namespace Upendo.Modules.UserManager.Utility
 
         public static DataTableResponse<RolesViewModel> ListOfRoles(List<RolesViewModel> roles, int rolesTotal, double take, int pageIndex, int goToPageValue, string search, string orderBy, string order)
         {
-            if (!string.IsNullOrEmpty(search) && search != " ")
+            // if (!string.IsNullOrEmpty(search) && search != " ")
+            if (Text.Has(search))
             {
                 roles = roles.Where(e => string.Concat(e.RoleName.ToLower()).Contains(search.Trim().ToLower())).ToList();
                 rolesTotal = roles.Count();
@@ -219,7 +226,8 @@ namespace Upendo.Modules.UserManager.Utility
             roles = roles.Skip(pageIndex).Take((int)take).ToList();
             double total = rolesTotal / take;
             var pagesTotal = Math.Ceiling(total);
-            if (!string.IsNullOrEmpty(orderBy))
+            // if (!string.IsNullOrEmpty(orderBy))
+            if (Text.Has(orderBy))
             {
                 switch (orderBy)
                 {

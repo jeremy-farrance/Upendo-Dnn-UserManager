@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Upendo.Modules.UserManager.Components
+namespace Upendo.Modules.UserManager.Utility
 {
   // using System.ComponentModel;
 

@@ -18,24 +18,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Net;
-using DotNetNuke.Data;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Instrumentation;
 using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Roles;
-using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Mail;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.ViewModels;
+
+using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -313,20 +309,20 @@ namespace Upendo.Modules.UserManager.Utility
         }
         public static string SendPasswordResetLink(int portalId, int itemId, PortalSettings portalSettings)
         {
-            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
+            string ResourceName = "UserRepository";
             try
             {
                 var user = UserController.GetUserById(portalId, itemId);
                 if (user == null)
                 {
-                    return Localization.GetString("UserNotFound.Text", ResourceFile);
+                    return Lang.GetString("UserNotFound.Text", ResourceName);
                 }
 
                 var errorMessage = string.Empty;
                 // Check if question and answer is required
                 if (MembershipProviderConfig.RequiresQuestionAndAnswer)
                 {
-                    errorMessage = Localization.GetString("OptionNotAvailable.Text", ResourceFile);
+                    errorMessage = Lang.GetString("OptionNotAvailable.Text", ResourceName);
                 }
                 else
                 {
@@ -335,7 +331,7 @@ namespace Upendo.Modules.UserManager.Utility
 
                     // Send password reminder email
                     var canSend = Mail.SendMail(user, MessageType.PasswordReminder, portalSettings) == string.Empty;
-                    errorMessage = !canSend ? Localization.GetString("OptionNotAvailable.Text", ResourceFile) : Localization.GetString("ResetLinkSentSuccessfully.Text", ResourceFile); ;
+                    errorMessage = !canSend ? Lang.GetString("OptionNotAvailable.Text", ResourceName) : Lang.GetString("ResetLinkSentSuccessfully.Text", ResourceName); ;
                 }
                 // Return the error or success message
                 return errorMessage;
@@ -345,7 +341,7 @@ namespace Upendo.Modules.UserManager.Utility
                 // Log the exception
                 LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
                 // Return a generic error message
-                return Localization.GetString("AnErrorOccurred.Text", ResourceFile);
+                return Lang.GetString("AnErrorOccurred.Text", ResourceName);
             }
         }
     }

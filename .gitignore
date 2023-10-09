@@ -223,5 +223,5 @@ $RECYCLE.BIN/
 /MSBuildLog.txt
 
 # these get compiled now from Module.scss
-/Modules/UserManager/Module.css
-/Modules/UserManager/Module.min.css
+/Modules/UserManager/module.css
+/Modules/UserManager/module.min.css

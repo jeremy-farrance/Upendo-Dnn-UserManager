@@ -22,13 +22,14 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Search;
 using DotNetNuke.Entities.Modules.Definitions;
 using DotNetNuke.Security.Permissions;
-using DotNetNuke.Services.Localization;
+
+using Lang = Upendo.Modules.UserManager.Utility.Helpers.LocalizationHelper;
 
 namespace Upendo.Modules.UserManager.Components
 {
     public class UserManagerController : IUpgradeable
     {
-        private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/FeatureController.resx";
+        private readonly string ResourceName = "FeatureController";
 
         public string UpgradeModule(string Version)
         {
@@ -38,7 +39,7 @@ namespace Upendo.Modules.UserManager.Components
                     InitModulePermissions();
                     break;
             }
-            return Localization.GetString("UpgradeSuccessful.Text", ResourceFile);
+            return Lang.GetString("UpgradeSuccessful.Text", ResourceName);
         }
         private void InitModulePermissions()
         {
@@ -52,7 +53,7 @@ namespace Upendo.Modules.UserManager.Components
                     ModuleDefID = modDefInfo.ModuleDefID,
                     PermissionCode = "SECURITY_MODULE",
                     PermissionKey = "EDIT",
-                    PermissionName = Localization.GetString("EditUser.Text", ResourceFile)
+                    PermissionName = Lang.GetString("EditUser.Text", ResourceName)
                 };
                 permCtl.AddPermission(pi);
             }
